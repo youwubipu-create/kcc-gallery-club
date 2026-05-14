@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-<title>KCC GALLERY v32</title>
+<title>KCC GALLERY v33</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -72,7 +72,7 @@ img{-webkit-touch-callout:none;pointer-events:none;}
 .m-card-outer{cursor:pointer;position:relative;z-index:1;}
 .m-card-outer.expanded{z-index:100;}
 .m-card{border-radius:10px;overflow:hidden;transition:transform .4s cubic-bezier(.34,1.4,.64,1),box-shadow .4s ease;position:relative;background:#f0f0f0;will-change:transform;}
-.m-card img{width:100%;display:block;object-fit:cover;-webkit-touch-callout:none;-webkit-user-select:none;}
+.m-card img{width:100%;display:block;object-fit:cover;}
 .m-card-outer.col-left .m-card{transform-origin:left top;}
 .m-card-outer.col-right .m-card{transform-origin:right top;}
 .m-card-outer.col-mid .m-card{transform-origin:center top;}
@@ -206,11 +206,15 @@ input[type=file]{display:none;}
   <div class="notice-box">
     <div class="notice-item">
       <div class="notice-dot"></div>
-      <div class="notice-text">ギャラリー上の画像の保存は可能ですが、商用目的や無断での転載（公開アカウントへの投稿など）は禁止です。個人用（鍵アカウント等）での利用はプライバシーに十分注意した上で可能です。</div>
+      <div class="notice-text">画像を商用目的や無断での転載目的で保存することは禁止です。</div>
     </div>
     <div class="notice-item">
       <div class="notice-dot"></div>
       <div class="notice-text">ギャラリー上の画像に写っている人物のプライバシーが十分に保護されるよう、このツールを責任を持って使用してください。</div>
+    </div>
+    <div class="notice-item">
+      <div class="notice-dot"></div>
+      <div class="notice-text">本アプリはカメラクラブ内の活動で使うことを想定しています。KCCに所属していない人や関係のない人にアプリの使用を勧める行為やアプリURLやQRコードを他人に共有しないようにしてください。</div>
     </div>
   </div>
   <label class="notice-agree">
@@ -306,9 +310,8 @@ input[type=file]{display:none;}
       <div class="post-terms-title">利用規約</div>
       <div class="post-terms-text">
         ・投稿した写真はギャラリーへの掲載に同意したものとみなします<br>
-        ・投稿した写真は閲覧者に保存されることがあります。投稿することでこれに同意したものとみなします<br>
+        ・他のユーザーの気分を害するようなものを含む写真を投稿してはいけません<br>
         ・他の人の顔が映っている場合は、必ず本人の許可を得てください<br>
-        ・投稿した写真の商用目的での転載・公開アカウントへの投稿は禁止です<br>
         ・規約に違反する投稿は管理者が予告なく削除できます
       </div>
       <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;color:#444;">
