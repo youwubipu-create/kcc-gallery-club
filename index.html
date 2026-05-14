@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-<title>KCC GALLERY v34</title>
+<title>KCC GALLERY v35</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -558,6 +558,8 @@ function renderEventTabs(){
 function selectEvent(name){
   currentEventName=name;
   renderEventTabs();
+  const fab=document.getElementById('fab-main');
+  fab.style.display=name==='all'?'none':'flex';
   loadGallery();
 }
 
@@ -781,7 +783,8 @@ function openAdmin(){
 function closeAdmin(){
   document.getElementById('admin-screen').classList.remove('open');
   showColsBtn(true);
-  document.getElementById('fab-main').style.display='flex';
+  const fab=document.getElementById('fab-main');
+  fab.style.display=currentEventName==='all'?'none':'flex';
 }
 function checkPw(){
   if(document.getElementById('pw-input').value===PASS){
