@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-<title>KCC GALLERY v33</title>
+<title>KCC GALLERY v34</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -354,36 +354,34 @@ input[type=file]{display:none;}
       <div class="admin-create-event">
         <div class="admin-create-event-title">＋ イベントを作成</div>
         <input class="admin-input" id="new-event-name" placeholder="イベント名（例：新歓2026）" type="text">
-        <div class="admin-date-row">
-          <input class="admin-input" id="new-event-start" type="datetime-local" title="投稿開始日時">
-          <input class="admin-input" id="new-event-end" type="datetime-local" title="投稿終了日時">
-        </div>
         <button class="admin-create-btn" onclick="createNewEvent()">作成する</button>
       </div>
       <div class="admin-event-select">
         <div class="admin-event-select-label">管理するイベントを選択</div>
         <div class="admin-event-picker" id="admin-event-picker"></div>
       </div>
-      <!-- イベントごとのトグル -->
-      <div class="admin-toggle">
-        <div>
-          <div class="admin-toggle-label">投稿受付</div>
-          <div class="admin-toggle-sub" id="toggle-sub">現在：受付中</div>
+      <!-- イベントごとのトグル（All選択時は非表示） -->
+      <div id="admin-toggles">
+        <div class="admin-toggle">
+          <div>
+            <div class="admin-toggle-label">投稿受付</div>
+            <div class="admin-toggle-sub" id="toggle-sub">現在：受付中</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="post-toggle" checked onchange="togglePosting()">
+            <span class="toggle-slider"></span>
+          </label>
         </div>
-        <label class="toggle-switch">
-          <input type="checkbox" id="post-toggle" checked onchange="togglePosting()">
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-      <div class="admin-toggle">
-        <div>
-          <div class="admin-toggle-label">承認審査</div>
-          <div class="admin-toggle-sub" id="review-toggle-sub">現在：審査あり（手動承認）</div>
+        <div class="admin-toggle">
+          <div>
+            <div class="admin-toggle-label">承認審査</div>
+            <div class="admin-toggle-sub" id="review-toggle-sub">現在：審査あり（手動承認）</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="review-toggle" checked onchange="toggleReview()">
+            <span class="toggle-slider"></span>
+          </label>
         </div>
-        <label class="toggle-switch">
-          <input type="checkbox" id="review-toggle" checked onchange="toggleReview()">
-          <span class="toggle-slider"></span>
-        </label>
       </div>
       <div class="admin-search-wrap">
         <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -754,6 +752,8 @@ async function doPost(){
     area.onclick=()=>triggerFilePicker();
     document.getElementById('ai-bar').style.display='none';
     const tc=document.getElementById('terms-check');if(tc)tc.checked=false;
+    document.getElementById('f-name').value='';
+    document.getElementById('f-comment').value='';
     selectedFile=null;aiOk=false;updatePostBtn();
     if(!review)loadGallery();
   }catch(e){showToast('エラー: '+e.message);}
@@ -763,6 +763,8 @@ async function doPost(){
 /* ===== ADMIN ===== */
 function openAdmin(){
   document.getElementById('admin-screen').classList.add('open');
+  showColsBtn(false);
+  document.getElementById('fab-main').style.display='none';
   if(!adminAuth){
     document.getElementById('pw-screen-inner').style.display='block';
     document.getElementById('admin-panel').style.display='none';
@@ -776,7 +778,11 @@ function openAdmin(){
     loadAdmin();
   }
 }
-function closeAdmin(){document.getElementById('admin-screen').classList.remove('open');}
+function closeAdmin(){
+  document.getElementById('admin-screen').classList.remove('open');
+  showColsBtn(true);
+  document.getElementById('fab-main').style.display='flex';
+}
 function checkPw(){
   if(document.getElementById('pw-input').value===PASS){
     adminAuth=true;
@@ -795,25 +801,38 @@ function adminLogout(){adminAuth=false;closeAdmin();}
 async function createNewEvent(){
   const name=document.getElementById('new-event-name').value.trim();
   if(!name){showToast('イベント名を入力してください');return;}
-  const start=document.getElementById('new-event-start').value||null;
-  const end=document.getElementById('new-event-end').value||null;
   try{
-    await api('events',{method:'POST',body:JSON.stringify({name,start_at:start,end_at:end})});
+    await api('events',{method:'POST',body:JSON.stringify({name})});
     showToast('イベントを作成しました：'+name);
     document.getElementById('new-event-name').value='';
-    document.getElementById('new-event-start').value='';
-    document.getElementById('new-event-end').value='';
     await loadEvents();
     renderAdminEventPicker();
   }catch(e){showToast('エラー: '+e.message);}
 }
+async function deleteEvent(name){
+  if(!confirm('「'+name+'」を削除しますか？\n（このイベントの投稿は削除されません）'))return;
+  try{
+    await api('events?name=eq.'+encodeURIComponent(name),{method:'DELETE'});
+    showToast('イベントを削除しました：'+name);
+    if(adminCurrentEvent===name)adminCurrentEvent='all';
+    await loadEvents();
+    renderAdminEventPicker();
+    loadAdmin();
+  }catch(e){showToast('エラー: '+e.message);}
+}
 function renderAdminEventPicker(){
   const wrap=document.getElementById('admin-event-picker');
-  const tabs=[{name:'all',label:'すべて'},...events.map(ev=>({name:ev.name,label:ev.name}))];
+  const tabs=[{name:'all',label:'All'},...events.map(ev=>({name:ev.name,label:ev.name}))];
   wrap.innerHTML=tabs.map(t=>`
-    <button class="admin-event-btn${adminCurrentEvent===t.name?' active':''}" onclick="selectAdminEvent('${t.name}')">
-      ${t.label}
-    </button>`).join('');
+    <div style="display:inline-flex;align-items:center;gap:4px;margin-bottom:6px;">
+      <button class="admin-event-btn${adminCurrentEvent===t.name?' active':''}" onclick="selectAdminEvent('${t.name}')">
+        ${t.label}
+      </button>
+      ${t.name!=='all'?`<button onclick="deleteEvent('${t.name}')" style="width:20px;height:20px;border-radius:50%;background:#fef0f0;border:1px solid #fcc;color:#c00;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">×</button>`:''}
+    </div>`).join('');
+  // トグルの表示制御（All選択時は非表示）
+  const toggles=document.getElementById('admin-toggles');
+  if(toggles)toggles.style.display=adminCurrentEvent==='all'?'none':'block';
   // イベントごとのトグル状態を反映
   if(adminCurrentEvent!=='all'){
     const posting=getEventSetting(adminCurrentEvent,'posting',true);
