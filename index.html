@@ -369,7 +369,7 @@ input[type=file]{display:none;}
           <input class="admin-input" id="new-event-start" type="datetime-local" title="投稿開始日時">
           <input class="admin-input" id="new-event-end" type="datetime-local" title="投稿終了日時">
         </div>
-        <button class="admin-create-btn" onclick="createEvent()">作成する</button>
+        <button class="admin-create-btn" onclick="createNewEvent()">作成する</button>
       </div>
       <!-- イベント選択 -->
       <div class="admin-event-select">
@@ -841,7 +841,7 @@ function checkPw(){
 function adminLogout(){adminAuth=false;closeAdmin();}
 
 /* イベント作成 */
-async function createEvent(){
+async function createNewEvent(){
   const name=document.getElementById('new-event-name').value.trim();
   if(!name){showToast('イベント名を入力してください');return;}
   const start=document.getElementById('new-event-start').value||null;
