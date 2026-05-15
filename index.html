@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-<title>KCC GALLERY v35</title>
+<title>KCC GALLERY v36</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -813,14 +813,21 @@ async function createNewEvent(){
   }catch(e){showToast('エラー: '+e.message);}
 }
 async function deleteEvent(name){
-  if(!confirm('「'+name+'」を削除しますか？\n（このイベントの投稿は削除されません）'))return;
+  if(!confirm('「'+name+'」を削除しますか？\n（このイベントの投稿も全て削除されます）'))return;
   try{
+    // まずそのイベントの投稿を全削除
+    await api('posts?event_name=eq.'+encodeURIComponent(name),{method:'DELETE'});
+    // イベント自体を削除
     await api('events?name=eq.'+encodeURIComponent(name),{method:'DELETE'});
-    showToast('イベントを削除しました：'+name);
+    showToast('イベントと投稿を削除しました：'+name);
     if(adminCurrentEvent===name)adminCurrentEvent='all';
+    if(currentEventName===name){
+      currentEventName='all';
+    }
     await loadEvents();
     renderAdminEventPicker();
     loadAdmin();
+    loadGallery();
   }catch(e){showToast('エラー: '+e.message);}
 }
 function renderAdminEventPicker(){
