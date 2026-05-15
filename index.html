@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-<title>KCC GALLERY v37</title>
+<title>KCC GALLERY v38</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -150,8 +150,17 @@ img{-webkit-touch-callout:none;pointer-events:none;}
 .admin-event-select{margin-bottom:14px;}
 .admin-event-select-label{font-size:11px;color:#aaa;margin-bottom:6px;font-weight:500;}
 .admin-event-picker{display:flex;gap:6px;flex-wrap:wrap;}
-.admin-event-btn{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid #eee;background:#fff;color:#888;font-family:'Inter','Noto Sans JP',sans-serif;transition:all .2s;}
+.admin-event-btn{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid #eee;background:#fff;color:#888;font-family:'Inter','Noto Sans JP',sans-serif;transition:all .2s;-webkit-touch-callout:none;-webkit-user-select:none;}
 .admin-event-btn.active{background:#111;color:#fff;border-color:#111;}
+
+/* イベント長押しメニュー */
+#event-context-menu{position:fixed;background:#fff;border-radius:16px;padding:8px;box-shadow:0 4px 24px rgba(0,0,0,.15);z-index:900;display:none;min-width:160px;}
+#event-context-menu.open{display:block;}
+.event-ctx-btn{width:100%;padding:12px 14px;border:none;background:transparent;font-size:14px;font-weight:500;cursor:pointer;border-radius:10px;text-align:left;font-family:'Inter','Noto Sans JP',sans-serif;color:#111;display:block;}
+.event-ctx-btn:active{background:#f5f5f5;}
+.event-ctx-btn.danger{color:#c00;}
+#event-ctx-overlay{position:fixed;top:0;left:0;width:100%;height:100%;z-index:890;display:none;}
+#event-ctx-overlay.open{display:block;}
 .admin-create-event{background:#f8f8f8;border-radius:14px;padding:14px 16px;margin-bottom:14px;border:1px solid #eee;}
 .admin-create-event-title{font-size:13px;font-weight:600;color:#111;margin-bottom:10px;}
 .admin-input{width:100%;background:#fff;border:1px solid #eee;border-radius:10px;padding:10px 12px;font-size:14px;color:#111;outline:none;margin-bottom:8px;font-family:'Inter','Noto Sans JP',sans-serif;}
@@ -278,6 +287,13 @@ input[type=file]{display:none;}
 <button class="fab fab-post" id="fab-main" onclick="openPost()" style="display:none;">
   <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
 </button>
+
+<!-- イベント長押しメニュー -->
+<div id="event-ctx-overlay" onclick="closeEventCtx()"></div>
+<div id="event-context-menu">
+  <button class="event-ctx-btn" onclick="renameEventFromCtx()">✏️ 名前を編集</button>
+  <button class="event-ctx-btn danger" onclick="deleteEventFromCtx()">🗑 削除</button>
+</div>
 
 <!-- POST SCREEN -->
 <div class="post-screen" id="post-screen">
@@ -846,11 +862,12 @@ function renderAdminEventPicker(){
   const wrap=document.getElementById('admin-event-picker');
   const tabs=[{name:'all',label:'All'},...events.map(ev=>({name:ev.name,label:ev.name}))];
   wrap.innerHTML=tabs.map(t=>`
-    <div style="display:inline-flex;align-items:center;gap:4px;margin-bottom:6px;">
-      <button class="admin-event-btn${adminCurrentEvent===t.name?' active':''}" onclick="selectAdminEvent('${t.name}')">
+    <div style="display:inline-flex;align-items:center;margin-bottom:6px;margin-right:4px;">
+      <button class="admin-event-btn${adminCurrentEvent===t.name?' active':''}"
+        onclick="selectAdminEvent('${t.name}')"
+        ${t.name!=='all'?`ontouchstart="startEventLongpress('${t.name}',event)" ontouchend="cancelEventLongpress()" ontouchmove="cancelEventLongpress()" oncontextmenu="showEventCtx('${t.name}',event);return false;"`:''}>
         ${t.label}
       </button>
-      ${t.name!=='all'?`<button onclick="deleteEvent('${t.name}')" style="width:20px;height:20px;border-radius:50%;background:#fef0f0;border:1px solid #fcc;color:#c00;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">×</button>`:''}
     </div>`).join('');
   // トグルの表示制御（All選択時は非表示）
   const toggles=document.getElementById('admin-toggles');
@@ -864,6 +881,63 @@ function renderAdminEventPicker(){
     document.getElementById('review-toggle').checked=review;
     document.getElementById('review-toggle-sub').textContent='現在：'+(review?'審査あり（手動承認）':'審査なし（即時公開）');
   }
+}
+
+let eventCtxTarget=null;
+let eventLpTimer=null;
+
+function startEventLongpress(name,e){
+  eventLpTimer=setTimeout(()=>{
+    showEventCtx(name,e);
+  },500);
+}
+function cancelEventLongpress(){clearTimeout(eventLpTimer);}
+
+function showEventCtx(name,e){
+  eventCtxTarget=name;
+  const menu=document.getElementById('event-context-menu');
+  const overlay=document.getElementById('event-ctx-overlay');
+  // 位置を設定
+  const touch=e.touches?e.touches[0]:e;
+  const x=Math.min(touch.clientX,window.innerWidth-180);
+  const y=Math.min(touch.clientY,window.innerHeight-120);
+  menu.style.left=x+'px';
+  menu.style.top=y+'px';
+  menu.classList.add('open');
+  overlay.classList.add('open');
+}
+function closeEventCtx(){
+  document.getElementById('event-context-menu').classList.remove('open');
+  document.getElementById('event-ctx-overlay').classList.remove('open');
+  eventCtxTarget=null;
+}
+function renameEventFromCtx(){
+  const oldName=eventCtxTarget;
+  closeEventCtx();
+  if(!oldName)return;
+  const newName=prompt('新しいイベント名を入力してください：',oldName);
+  if(!newName||newName===oldName)return;
+  renameEvent(oldName,newName);
+}
+function deleteEventFromCtx(){
+  const name=eventCtxTarget;
+  closeEventCtx();
+  if(!name)return;
+  deleteEvent(name);
+}
+async function renameEvent(oldName,newName){
+  try{
+    await api('events?name=eq.'+encodeURIComponent(oldName),{method:'PATCH',body:JSON.stringify({name:newName})});
+    // 投稿のevent_nameも更新
+    await api('posts?event_name=eq.'+encodeURIComponent(oldName),{method:'PATCH',body:JSON.stringify({event_name:newName})});
+    showToast('イベント名を変更しました：'+newName);
+    if(adminCurrentEvent===oldName)adminCurrentEvent=newName;
+    if(currentEventName===oldName)currentEventName=newName;
+    await loadEvents();
+    renderAdminEventPicker();
+    renderEventTabs();
+    loadAdmin();
+  }catch(e){showToast('エラー: '+e.message);}
 }
 function selectAdminEvent(name){
   adminCurrentEvent=name;
