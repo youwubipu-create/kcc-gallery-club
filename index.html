@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-<title>KCC GALLERY v38</title>
+<title>KCC GALLERY v39</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -540,6 +540,12 @@ async function loadEvents(){
   try{
     const data=await api('events?order=created_at.asc&select=*');
     events=data||[];
+    // Supabaseから設定を読み込んでeventSettingsに反映
+    events.forEach(ev=>{
+      if(!eventSettings[ev.name])eventSettings[ev.name]={};
+      eventSettings[ev.name].posting=ev.posting_enabled??true;
+      eventSettings[ev.name].review=ev.review_enabled??true;
+    });
     renderEventTabs();
   }catch(e){events=[];}
 }
@@ -950,6 +956,7 @@ function togglePosting(){
     setEventSetting(adminCurrentEvent,'posting',val);
     document.getElementById('toggle-sub').textContent='現在：'+(val?'受付中':'停止中');
     showToast((val?'投稿受付を再開':'投稿受付を停止')+'しました（'+adminCurrentEvent+'）');
+    api('events?name=eq.'+encodeURIComponent(adminCurrentEvent),{method:'PATCH',body:JSON.stringify({posting_enabled:val})}).catch(e=>showToast('保存エラー: '+e.message));
   }
 }
 function toggleReview(){
@@ -958,6 +965,7 @@ function toggleReview(){
     setEventSetting(adminCurrentEvent,'review',val);
     document.getElementById('review-toggle-sub').textContent='現在：'+(val?'審査あり（手動承認）':'審査なし（即時公開）');
     showToast((val?'承認審査をオン':'承認審査をオフ（即時公開）')+'にしました（'+adminCurrentEvent+'）');
+    api('events?name=eq.'+encodeURIComponent(adminCurrentEvent),{method:'PATCH',body:JSON.stringify({review_enabled:val})}).catch(e=>showToast('保存エラー: '+e.message));
   }
 }
 function setFilter(f){
