@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-<title>MITASAI 2026 - FESTAP</title>
+<title>KCC GALLERY v41</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -42,7 +42,7 @@ img{-webkit-touch-callout:none;pointer-events:none;}
 .header{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;z-index:200;background:transparent;}
 .title-area{padding:52px 20px 6px;position:relative;}
 .title-row{display:flex;align-items:center;justify-content:space-between;}
-.title-kcc{font-family:'Inter',sans-serif;font-size:34px;font-weight:900;letter-spacing:-1.5px;line-height:1;text-shadow:0 1px 8px rgba(255,255,255,0.9);}
+.title-kcc{font-family:'Inter',sans-serif;font-size:34px;font-weight:900;color:#111;letter-spacing:-1.5px;line-height:1;text-shadow:0 1px 8px rgba(255,255,255,0.9);}
 .title-festap{font-size:9px;color:#ccc;letter-spacing:.3em;margin-top:3px;font-weight:500;}
 .admin-secret-btn{width:32px;height:32px;background:transparent;border:none;cursor:pointer;opacity:0.12;display:flex;align-items:center;justify-content:center;}
 .header-controls{display:flex;align-items:center;justify-content:space-between;padding:4px 16px 6px;}
@@ -211,19 +211,19 @@ input[type=file]{display:none;}
 <!-- NOTICE SCREEN -->
 <div id="notice-screen">
   <div class="notice-title">ご利用前にご確認ください</div>
-  <div class="notice-sub">MITASAI 2026 · FESTAP</div>
+  <div class="notice-sub">KCC GALLERY · FESTAP</div>
   <div class="notice-box">
     <div class="notice-item">
       <div class="notice-dot"></div>
-      <div class="notice-text">ギャラリーに投稿された画像を無断で転載したり本アプリ以外の場で使用することは禁止です。</div>
+      <div class="notice-text">画像を商用目的や無断での転載目的で保存することは禁止です。</div>
     </div>
     <div class="notice-item">
       <div class="notice-dot"></div>
-      <div class="notice-text">万が一、投稿画像に関して第三者との間でトラブル（訴訟など）が発生した場合、運営は責任を負いかねます。</div>
+      <div class="notice-text">ギャラリー上の画像に写っている人物のプライバシーが十分に保護されるよう、このツールを責任を持って使用してください。</div>
     </div>
     <div class="notice-item">
       <div class="notice-dot"></div>
-      <div class="notice-text">投稿された画像の著作権はユーザーに帰属しますが、アプリのプロモーション等で運営が使用する場合があります。</div>
+      <div class="notice-text">本アプリはカメラクラブ内の活動で使うことを想定しています。KCCに所属していない人や関係のない人にアプリの使用を勧める行為やアプリURLやQRコードを他人に共有しないようにしてください。</div>
     </div>
   </div>
   <label class="notice-agree">
@@ -235,7 +235,7 @@ input[type=file]{display:none;}
 
 <!-- SPLASH -->
 <div id="splash" style="display:none;">
-  <div id="splash-logo"><span style="color:#87CEEB;">M</span><span style="color:#87CEEB;">I</span><span style="color:#87CEEB;">T</span><span style="color:#87CEEB;">A</span><span style="color:#e30202;">S</span><span style="color:#e30202;">A</span><span style="color:#e30202;">I</span><span style="color:#111;">&nbsp;</span><span style="color:#111;">2</span><span style="color:#111;">0</span><span style="color:#111;">2</span><span style="color:#111;">6</span></div>
+  <div id="splash-logo"><span>K</span><span>C</span><span>C</span><span>&nbsp;</span><span>G</span><span>A</span><span>L</span><span>L</span><span>E</span><span>R</span><span>Y</span></div>
   <div id="splash-sub">FESTAP</div>
 </div>
 
@@ -243,7 +243,7 @@ input[type=file]{display:none;}
 <div class="header">
   <div class="title-area">
     <div class="title-row">
-      <div class="title-kcc"><span style="color:#87CEEB;">MITA</span><span style="color:#e30202;">SAI</span><span style="color:#111;"> 2026</span></div>
+      <div class="title-kcc">KCC GALLERY</div>
       <button class="admin-secret-btn" onclick="openAdmin()">
         <svg viewBox="0 0 6 6" width="6" height="6"><circle cx="3" cy="3" r="3" fill="#111"/></svg>
       </button>
@@ -326,11 +326,9 @@ input[type=file]{display:none;}
       <div class="post-terms-title">利用規約</div>
       <div class="post-terms-text">
         ・投稿した写真はギャラリーへの掲載に同意したものとみなします<br>
-        ・一度投稿した画像は、原則として修正・削除ができません。よく確認してから投稿してください<br>
-        ・顔写真や位置情報等の個人情報の取り扱いに十分注意を払って利用してください<br>
-        ・個人情報や、誹謗中傷にあたる言葉は入力しないでください<br>
-        ・実名（フルネーム）での入力は避け、ニックネームを推奨します<br>
-        ・規約に反する投稿・不適切な投稿は管理者が予告なく削除できます
+        ・他のユーザーの気分を害するようなものを含む写真を投稿してはいけません<br>
+        ・他の人の顔が映っている場合は、必ず本人の許可を得てください<br>
+        ・規約に違反する投稿は管理者が予告なく削除できます
       </div>
       <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;color:#444;">
         <input type="checkbox" id="terms-check" onchange="updatePostBtn()" style="width:16px;height:16px;cursor:pointer;accent-color:#111;flex-shrink:0;">
@@ -370,12 +368,12 @@ input[type=file]{display:none;}
     </div>
     <div class="admin-body">
       <div class="admin-create-event">
-        <div class="admin-create-event-title">＋ タグを作成</div>
-        <input class="admin-input" id="new-event-name" placeholder="タグ名（例：慶應三田祭）" type="text">
+        <div class="admin-create-event-title">＋ イベントを作成</div>
+        <input class="admin-input" id="new-event-name" placeholder="イベント名（例：新歓2026）" type="text">
         <button class="admin-create-btn" onclick="createNewEvent()">作成する</button>
       </div>
       <div class="admin-event-select">
-        <div class="admin-event-select-label">管理するタグを選択</div>
+        <div class="admin-event-select-label">管理するイベントを選択</div>
         <div class="admin-event-picker" id="admin-event-picker"></div>
       </div>
       <!-- イベントごとのトグル（All選択時は非表示） -->
@@ -419,8 +417,8 @@ input[type=file]{display:none;}
 <div class="toast-bar" id="toast-bar"></div>
 
 <script>
-const SUPABASE_URL='https://ycayvSauvScomnothxmj.supabase.co';
-const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljYXl2c2F1dnNjb21ub3RoeG1qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxMzA5MDgsImV4cCI6MjA5NDcwNjkwOH0._96odX8YjFXcNgYbOfzlvi-0LUzGsCUrxZAX1tXd6Qs';
+const SUPABASE_URL='https://psgbmfjrcsnaiuabccsz.supabase.co';
+const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBzZ2JtZmpyY3NuYWl1YWJjY3N6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2Njk2NDksImV4cCI6MjA5NDI0NTY0OX0.hc4dKVtEHwNLIpvSY8KlVVhgeapB8k86_i17AySFUaU';
 const PASS='tO6%yyaOUp6q';
 const PAGE_SIZE=20;
 let aiOk=false,adminAuth=false,allPosts=[],adminAllPosts=[],selectedFile=null;
@@ -849,10 +847,10 @@ function adminLogout(){adminAuth=false;closeAdmin();}
 
 async function createNewEvent(){
   const name=document.getElementById('new-event-name').value.trim();
-  if(!name){showToast('タグ名を入力してください');return;}
+  if(!name){showToast('イベント名を入力してください');return;}
   try{
     await api('events',{method:'POST',body:JSON.stringify({name})});
-    showToast('タグを作成しました：'+name);
+    showToast('イベントを作成しました：'+name);
     document.getElementById('new-event-name').value='';
     await loadEvents();
     renderAdminEventPicker();
@@ -879,7 +877,7 @@ async function deleteEvent(name){
     await api('posts?event_name=eq.'+encodeURIComponent(name),{method:'DELETE'});
     // イベント自体を削除
     await api('events?name=eq.'+encodeURIComponent(name),{method:'DELETE'});
-    showToast('タグと投稿・画像を削除しました：'+name);
+    showToast('イベントと投稿・画像を削除しました：'+name);
     if(adminCurrentEvent===name)adminCurrentEvent='all';
     if(currentEventName===name)currentEventName='all';
     await loadEvents();
@@ -945,7 +943,7 @@ function renameEventFromCtx(){
   const oldName=eventCtxTarget;
   closeEventCtx();
   if(!oldName)return;
-  const newName=prompt('新しいタグ名を入力してください：',oldName);
+  const newName=prompt('新しいイベント名を入力してください：',oldName);
   if(!newName||newName===oldName)return;
   renameEvent(oldName,newName);
 }
@@ -960,7 +958,7 @@ async function renameEvent(oldName,newName){
     await api('events?name=eq.'+encodeURIComponent(oldName),{method:'PATCH',body:JSON.stringify({name:newName})});
     // 投稿のevent_nameも更新
     await api('posts?event_name=eq.'+encodeURIComponent(oldName),{method:'PATCH',body:JSON.stringify({event_name:newName})});
-    showToast('タグ名を変更しました：'+newName);
+    showToast('イベント名を変更しました：'+newName);
     if(adminCurrentEvent===oldName)adminCurrentEvent=newName;
     if(currentEventName===oldName)currentEventName=newName;
     await loadEvents();
