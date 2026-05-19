@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-<title>KCC GALLERY v40</title>
+<title>KCC GALLERY v41</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -1048,6 +1048,17 @@ async function deletePost(id,btn){
   if(!confirm('この投稿を削除しますか？'))return;
   btn.disabled=true;btn.textContent='削除中...';
   try{
+    // まず投稿データを取得してimage_urlを確認
+    const posts=await api('posts?id=eq.'+id+'&select=id,image_url')||[];
+    if(posts.length&&posts[0].image_url){
+      const path=posts[0].image_url.split('/photos/')[1];
+      if(path){
+        await fetch(SUPABASE_URL+'/storage/v1/object/photos/'+path,{
+          method:'DELETE',
+          headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}
+        });
+      }
+    }
     await api('posts?id=eq.'+id,{method:'DELETE'});
     adminAllPosts=adminAllPosts.filter(p=>p.id!==id);
     document.getElementById('ac-'+id)?.remove();
