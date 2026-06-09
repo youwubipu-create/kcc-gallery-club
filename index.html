@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-<title>KCC GALLERY v60</title>
+<title>KCC GALLERY v61</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -532,6 +532,9 @@ input[type=file]{display:none;}
 
 <!-- GALLERY（テーマ） -->
 <div class="content gallery-page" id="gallery-theme" style="display:none;">
+  <div class="event-tabs-wrap" id="theme-tabs-wrap">
+    <div class="event-tabs" id="theme-event-tabs"></div>
+  </div>
   <div id="theme-gallery-loading" class="loading">読み込み中...</div>
   <div class="grid-wrap" id="theme-gallery-grid" style="display:none;"></div>
   <div class="empty" id="theme-gallery-empty" style="display:none;">写真がまだありません</div>
@@ -1138,7 +1141,7 @@ function switchGalleryType(type, idx){
     loadGallery();
   } else {
     document.getElementById('event-tabs').parentElement.style.display='none';
-    // テーマ用イベントタブを表示（後で実装）
+    renderThemeTagTabs();
     loadThemeGallery();
   }
 }
@@ -1197,6 +1200,7 @@ async function loadEvents(){
       eventSettings[ev.name].review=ev.review_enabled??true;
     });
     renderEventTabs();
+    renderThemeTagTabs();
   }catch(e){events=[];}
 }
 function getEventSetting(eventName,key,defaultVal){
@@ -1264,6 +1268,22 @@ async function loadGallery(reset=true){
   }
 }
 /* ===== THEME GALLERY ===== */
+function renderThemeTagTabs(){
+  const wrap=document.getElementById('theme-event-tabs');
+  if(!wrap)return;
+  const tabs=[{name:'all',label:'All'},...themeEvents.map(ev=>({name:ev.name,label:ev.name}))];
+  wrap.innerHTML=tabs.map(t=>`
+    <button class="event-tab${currentThemeTag===t.name?' active':''}" onclick="selectThemeTag('${t.name}')">
+      ${t.label}
+    </button>`).join('');
+}
+
+function selectThemeTag(name){
+  currentThemeTag=name;
+  renderThemeTagTabs();
+  loadThemeGallery();
+}
+
 async function loadThemeGallery(reset=true){
   if(reset){
     themeCurrentPage=0;themePosts=[];
@@ -1320,8 +1340,8 @@ function renderThemeCards(posts){
     return `<div class="m-col">${items}</div>`;
   }).join('');
   allPosts=saved;
-  // handleCardTapがallPostsを参照するので、テーマページ用にthemePostsもallPostsにマージ
-  allPosts=[...allPosts,...posts.filter(p=>!allPosts.find(a=>a.id===p.id))];
+  // handleCardTapのためにthemePostsをmerge
+  posts.forEach(p=>{if(!allPosts.find(a=>a.id===p.id))allPosts.push(p);});
 }
 
 async function loadThemeMore(){
