@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-<title>KCC GALLERY v72</title>
+<title>KCC GALLERY v77</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -95,8 +95,8 @@ img{-webkit-touch-callout:none;pointer-events:none;}
 
 /* ===== GALLERY ===== */
 .content{padding-top:178px;padding-bottom:100px;}
-.grid-wrap{display:flex;flex-wrap:nowrap;gap:4px;padding:4px;align-items:flex-start;}
-.grid-col{flex:1;display:flex;flex-direction:column;gap:4px;min-width:0;position:relative;}
+.grid-wrap{display:flex;flex-wrap:nowrap;gap:5px;padding:5px;align-items:flex-start;}
+.grid-col{flex:1;display:flex;flex-direction:column;gap:5px;min-width:0;position:relative;}
 .m-card-outer{cursor:pointer;position:relative;z-index:1;}
 .m-card-outer.expanded{z-index:100;}
 .m-card{border-radius:10px;overflow:hidden;transition:transform .4s cubic-bezier(.34,1.4,.64,1),box-shadow .4s ease;position:relative;background:#f0f0f0;will-change:transform;}
@@ -111,8 +111,8 @@ img{-webkit-touch-callout:none;pointer-events:none;}
 .card-comment{font-size:11px;color:#777;margin-top:2px;line-height:1.4;}
 .card-event-tag{display:inline-block;font-size:9px;background:rgba(0,0,0,0.06);color:#999;border-radius:6px;padding:2px 7px;margin-top:5px;font-weight:500;}
 
-@keyframes tileIn{0%{opacity:0;transform:scale(0.88);}100%{opacity:1;transform:scale(1);}}
-.animating .m-card-outer{animation:tileIn .3s cubic-bezier(.34,1.4,.64,1) both;}
+@keyframes tileIn{0%{opacity:0;transform:scale(0.78) translateY(8px);}60%{transform:scale(1.04) translateY(-2px);}100%{opacity:1;transform:scale(1) translateY(0);}}
+.animating .m-card-outer{animation:tileIn .45s cubic-bezier(.34,1.6,.64,1) both;}
 .animating .m-card-outer:nth-child(1){animation-delay:.00s;}
 .animating .m-card-outer:nth-child(2){animation-delay:.04s;}
 .animating .m-card-outer:nth-child(3){animation-delay:.08s;}
@@ -562,8 +562,8 @@ input[type=file]{display:none;}
 <div class="content gallery-page" id="gallery-theme" style="display:none;">
   <!-- サブタブ：今月 / 自由 / アーカイブ -->
   <div class="theme-sub-tabs">
-    <button class="theme-sub-tab active" id="tsub-monthly" onclick="switchThemeSubTab('monthly')">今月</button>
-    <button class="theme-sub-tab" id="tsub-free" onclick="switchThemeSubTab('free')">自由</button>
+    <button class="theme-sub-tab active" id="tsub-monthly" onclick="switchThemeSubTab('monthly')">今月のテーマ</button>
+    <button class="theme-sub-tab" id="tsub-free" onclick="switchThemeSubTab('free')">フリーテーマ</button>
     <button class="theme-sub-tab" id="tsub-archive" onclick="switchThemeSubTab('archive')">アーカイブ</button>
   </div>
 
@@ -578,6 +578,9 @@ input[type=file]{display:none;}
 
   <!-- 自由投稿 -->
   <div id="theme-free-section" style="display:none;">
+    <div style="margin:0 14px 12px;padding:12px 16px;background:rgba(255,255,255,0.3);border:1px solid rgba(0,0,0,0.06);border-radius:16px;">
+      <div style="font-size:12px;color:rgba(60,50,90,0.45);line-height:1.7;text-align:center;">あなたの好きな写真を何でも載せてください✨</div>
+    </div>
     <div id="theme-free-loading" class="loading">読み込み中...</div>
     <div class="grid-wrap" id="theme-free-grid" style="display:none;"></div>
     <div class="empty" id="theme-free-empty" style="display:none;">まだ投稿がありません</div>
@@ -942,6 +945,8 @@ function cycleCols(){
       renderThemeGrid('theme-monthly-grid','theme-monthly-loading','theme-monthly-empty',themeMonthlyPosts,true);
     else if(currentThemeSubTab==='free'&&themeFreePosts.length)
       renderThemeGrid('theme-free-grid','theme-free-loading','theme-free-empty',themeFreePosts,true);
+    else if(currentThemeSubTab==='archive'&&archiveOpenPosts.length)
+      renderThemeGrid('arch-gallery-grid','arch-gallery-loading','arch-gallery-empty',archiveOpenPosts,true);
   }
 }
 function setCols(n,animate=false){
@@ -1676,7 +1681,10 @@ function switchThemeSubTab(tab){
   if(fab)fab.style.display=tab==='archive'?'none':'flex';
   if(tab==='monthly')loadThemeMonthly();
   else if(tab==='free')loadThemeFree();
-  else loadThemeArchive();
+  else{
+    document.getElementById('count-num').textContent='—';
+    loadThemeArchive();
+  }
 }
 
 /* ===== 今月のテーマ ===== */
@@ -1708,6 +1716,7 @@ async function loadThemeMonthly(reset=true){
     renderThemeGrid('theme-monthly-grid','theme-monthly-loading','theme-monthly-empty',themeMonthlyPosts);
     document.getElementById('theme-monthly-more-btn').style.display=themeMonthlyHasMore?'block':'none';
     data.forEach(p=>{if(!allPosts.find(a=>a.id===p.id))allPosts.push(p);});
+    if(reset)document.getElementById('count-num').textContent=themeMonthlyPosts.length+(themeMonthlyHasMore?'+':'');
   }catch(e){
     document.getElementById('theme-monthly-loading').style.display='none';
     document.getElementById('theme-monthly-empty').style.display='block';
@@ -1749,6 +1758,7 @@ async function loadThemeFree(reset=true){
     renderThemeGrid('theme-free-grid','theme-free-loading','theme-free-empty',themeFreePosts);
     document.getElementById('theme-free-more-btn').style.display=themeFreeHasMore?'block':'none';
     data.forEach(p=>{if(!allPosts.find(a=>a.id===p.id))allPosts.push(p);});
+    if(reset)document.getElementById('count-num').textContent=themeFreePosts.length+(themeFreeHasMore?'+':'');
   }catch(e){
     document.getElementById('theme-free-loading').style.display='none';
     document.getElementById('theme-free-empty').style.display='block';
@@ -1756,7 +1766,7 @@ async function loadThemeFree(reset=true){
 }
 
 /* ===== アーカイブ ===== */
-let archiveOpenTheme=null;
+let archiveOpenTheme=null,archiveOpenPosts=[];
 
 async function loadThemeArchive(){
   archiveOpenTheme=null;
@@ -1805,6 +1815,7 @@ async function openArchiveTheme(title){
     archGrid.id='theme-archive-gallery';
     document.getElementById('theme-archive-section').appendChild(archGrid);
   }
+  document.getElementById('count-num').textContent='…';
   archGrid.innerHTML=`
     <div style="display:flex;align-items:center;gap:10px;padding:4px 14px 12px;">
       <button onclick="closeArchiveTheme()" style="background:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.7);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:#555;cursor:pointer;backdrop-filter:blur(12px);">← 戻る</button>
@@ -1816,9 +1827,12 @@ async function openArchiveTheme(title){
   archGrid.style.display='block';
   // 投稿を取得
   try{
-    const posts=await api(`posts?approved=eq.true&gallery_type=eq.theme&theme_type=eq.monthly&event_name=eq.${encodeURIComponent(title)}&order=created_at.desc&select=id,nickname,comment,image_url,event_name`)||[];
+    let posts=await api(`posts?approved=eq.true&gallery_type=eq.theme&theme_type=eq.monthly&order=created_at.desc&select=id,nickname,comment,image_url,event_name`)||[];
+    posts=posts.filter(p=>p.event_name===title);
+    archiveOpenPosts=posts;
     posts.forEach(p=>{if(!allPosts.find(a=>a.id===p.id))allPosts.push(p);});
     renderThemeGrid('arch-gallery-grid','arch-gallery-loading','arch-gallery-empty',posts);
+    document.getElementById('count-num').textContent=posts.length;
   }catch(e){
     document.getElementById('arch-gallery-loading').style.display='none';
     document.getElementById('arch-gallery-empty').style.display='block';
@@ -1827,9 +1841,11 @@ async function openArchiveTheme(title){
 
 function closeArchiveTheme(){
   archiveOpenTheme=null;
+  archiveOpenPosts=[];
   const archGrid=document.getElementById('theme-archive-gallery');
   if(archGrid)archGrid.style.display='none';
   document.getElementById('theme-archive-list').style.display='block';
+  document.getElementById('count-num').textContent='—';
 }
 
 function renderThemeGrid(gridId,loadingId,emptyId,posts,animate=false){
