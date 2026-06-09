@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-<title>KCC GALLERY v49</title>
+<title>KCC GALLERY v59</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -148,14 +148,6 @@ img{-webkit-touch-callout:none;pointer-events:none;}
 .upload-area{border-radius:16px;overflow:hidden;background:rgba(255,255,255,0.8);margin-bottom:12px;cursor:pointer;min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:1.5px dashed rgba(0,0,0,0.1);}
 .upload-area svg{width:26px;height:26px;stroke:#ccc;fill:none;stroke-width:1.5;}
 .upload-area p{font-size:13px;color:#bbb;font-family:'Noto Sans JP',sans-serif;}
-.ai-bar{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.9);border-radius:12px;padding:10px 14px;margin-bottom:12px;border:1px solid #eee;}
-.ai-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.ai-dot.safe{background:#1D9E75;}.ai-dot.checking{background:#EF9F27;}.ai-dot.unsafe{background:#E24B4A;}
-.ai-info{flex:1;}
-.ai-info p{font-size:12px;color:#333;font-weight:500;}
-.ai-info span{font-size:11px;color:#aaa;}
-.ai-tag{font-size:10px;padding:3px 10px;border-radius:20px;font-weight:600;}
-.ai-tag.safe{background:#e6f7f0;color:#0F6E56;}.ai-tag.checking{background:#fff8e6;color:#854F0B;}.ai-tag.unsafe{background:#fef0f0;color:#993C1D;}
 .f-label{font-size:11px;color:#aaa;margin-bottom:5px;letter-spacing:.04em;font-weight:500;}
 .f-input{width:100%;background:rgba(255,255,255,0.85);border:1px solid rgba(255,255,255,0.6);border-radius:12px;padding:12px 14px;font-size:16px;color:#111;outline:none;margin-bottom:10px;font-family:'Inter','Noto Sans JP',sans-serif;box-shadow:inset 0 1.5px 0 rgba(255,255,255,0.95);}
 .f-textarea{width:100%;background:rgba(255,255,255,0.85);border:1px solid rgba(255,255,255,0.6);border-radius:12px;padding:12px 14px;font-size:16px;color:#111;outline:none;margin-bottom:12px;resize:none;height:76px;font-family:'Inter','Noto Sans JP',sans-serif;box-shadow:inset 0 1.5px 0 rgba(255,255,255,0.95);}
@@ -175,16 +167,17 @@ img{-webkit-touch-callout:none;pointer-events:none;}
 .post-item.anim-out{animation:popDown .22s ease-in forwards;}
 
 /* ===== ADMIN ===== */
-.admin-screen{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;height:100%;background:#ffffff;z-index:300;display:none;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.admin-screen{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;height:100%;background:rgba(242,242,247,0.88);backdrop-filter:blur(40px) saturate(200%);-webkit-backdrop-filter:blur(40px) saturate(200%);z-index:300;display:none;overflow-y:auto;-webkit-overflow-scrolling:touch;}
 .admin-screen.open{display:block;}
-.admin-header{display:flex;align-items:center;justify-content:space-between;padding:56px 16px 12px;background:#fff;border-bottom:1px solid #f0f0f0;}
+.admin-header{display:flex;align-items:center;justify-content:space-between;padding:56px 16px 12px;background:rgba(255,255,255,0.55);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.5);box-shadow:0 1px 0 rgba(255,255,255,0.8);}
 .admin-title{font-size:16px;font-weight:600;color:#111;}
 .logout-btn{font-size:12px;color:#999;background:transparent;border:none;cursor:pointer;}
 .admin-body{padding:12px 16px;}
 .admin-event-select{margin-bottom:14px;}
 .admin-event-select-label{font-size:11px;color:#aaa;margin-bottom:6px;font-weight:500;}
 .admin-event-picker{display:flex;gap:6px;flex-wrap:wrap;}
-.admin-event-btn{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid #eee;background:#fff;color:#888;font-family:'Inter','Noto Sans JP',sans-serif;transition:all .2s;-webkit-touch-callout:none;-webkit-user-select:none;}
+.admin-event-btn{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid rgba(255,255,255,0.6);background:rgba(255,255,255,0.45);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:#666;font-family:'Inter','Noto Sans JP',sans-serif;transition:transform .4s cubic-bezier(.34,1.56,.64,1),box-shadow .25s;box-shadow:inset 0 1.5px 0 rgba(255,255,255,0.8);-webkit-touch-callout:none;-webkit-user-select:none;}
+.admin-event-btn:active{transform:scale(.9);transition:transform .1s cubic-bezier(.34,1.56,.64,1);}
 .admin-event-btn.active{background:#111;color:#fff;border-color:#111;}
 
 /* イベント長押しメニュー */
@@ -195,13 +188,14 @@ img{-webkit-touch-callout:none;pointer-events:none;}
 .event-ctx-btn.danger{color:#c00;}
 #event-ctx-overlay{position:fixed;top:0;left:0;width:100%;height:100%;z-index:890;display:none;}
 #event-ctx-overlay.open{display:block;}
-.admin-create-event{background:#f8f8f8;border-radius:14px;padding:14px 16px;margin-bottom:14px;border:1px solid #eee;}
+.admin-create-event{background:rgba(255,255,255,0.45);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:18px;padding:14px 16px;margin-bottom:14px;border:1px solid rgba(255,255,255,0.7);box-shadow:inset 0 1.5px 0 rgba(255,255,255,0.9),0 2px 10px rgba(0,0,0,.05);}
 .admin-create-event-title{font-size:13px;font-weight:600;color:#111;margin-bottom:10px;}
-.admin-input{width:100%;background:#fff;border:1px solid #eee;border-radius:10px;padding:10px 12px;font-size:14px;color:#111;outline:none;margin-bottom:8px;font-family:'Inter','Noto Sans JP',sans-serif;}
+.admin-input{width:100%;background:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.6);border-radius:12px;padding:10px 12px;font-size:14px;color:#111;outline:none;margin-bottom:8px;font-family:'Inter','Noto Sans JP',sans-serif;box-shadow:inset 0 1px 0 rgba(255,255,255,0.9);}
 .admin-date-row{display:flex;gap:8px;margin-bottom:8px;}
 .admin-date-row .admin-input{margin-bottom:0;}
-.admin-create-btn{width:100%;background:#111;color:#fff;border:none;border-radius:10px;padding:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter','Noto Sans JP',sans-serif;}
-.admin-toggle{display:flex;align-items:center;justify-content:space-between;background:#fff;border-radius:14px;padding:12px 16px;margin-bottom:10px;border:1px solid #f0f0f0;}
+.admin-create-btn{width:100%;background:rgba(17,17,17,0.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:#fff;border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter','Noto Sans JP',sans-serif;box-shadow:inset 0 1.5px 0 rgba(255,255,255,0.15),0 4px 14px rgba(0,0,0,.18);transition:transform .4s cubic-bezier(.34,1.56,.64,1);}
+.admin-create-btn:active{transform:scale(.97);transition:transform .1s;}
+.admin-toggle{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.45);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:16px;padding:12px 16px;margin-bottom:10px;border:1px solid rgba(255,255,255,0.65);box-shadow:inset 0 1.5px 0 rgba(255,255,255,0.85);}
 .admin-toggle-label{font-size:13px;color:#111;font-weight:500;}
 .admin-toggle-sub{font-size:11px;color:#aaa;margin-top:2px;}
 .toggle-switch{position:relative;width:44px;height:26px;flex-shrink:0;}
@@ -210,7 +204,7 @@ img{-webkit-touch-callout:none;pointer-events:none;}
 .toggle-slider:before{content:'';position:absolute;width:20px;height:20px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 1px 4px rgba(0,0,0,.15);}
 input:checked + .toggle-slider{background:#111;}
 input:checked + .toggle-slider:before{transform:translateX(18px);}
-.admin-search-wrap{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #f0f0f0;border-radius:12px;padding:8px 12px;margin-bottom:10px;}
+.admin-search-wrap{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.5);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.65);border-radius:14px;padding:8px 12px;margin-bottom:10px;box-shadow:inset 0 1.5px 0 rgba(255,255,255,0.85);}
 .admin-search-wrap svg{width:15px;height:15px;stroke:#ccc;fill:none;stroke-width:2;flex-shrink:0;}
 .admin-search-wrap input{flex:1;border:none;outline:none;font-size:13px;color:#111;background:transparent;font-family:'Inter','Noto Sans JP',sans-serif;}
 .filter-tabs{display:flex;gap:6px;margin-bottom:14px;}
@@ -235,6 +229,71 @@ input:checked + .toggle-slider:before{transform:translateX(18px);}
 .pw-input{width:100%;background:#f8f8f8;border:1px solid #eee;border-radius:12px;padding:14px;font-size:16px;color:#111;outline:none;text-align:center;letter-spacing:.1em;margin-bottom:12px;font-family:'Inter','Noto Sans JP',sans-serif;}
 .pw-btn{width:100%;background:#111;color:#fff;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter','Noto Sans JP',sans-serif;}
 .pw-error{font-size:12px;color:#E24B4A;text-align:center;margin-top:8px;min-height:18px;}
+/* ===== GALLERY TYPE TABS (Gooey) ===== */
+.gallery-type-bar{
+  position:fixed;
+  bottom:calc(env(safe-area-inset-bottom,0px) + 16px);
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;justify-content:center;
+  padding:0;
+  z-index:400;
+  background:transparent;
+  pointer-events:none;
+}
+.gallery-type-bar > *{pointer-events:auto;}
+.gallery-type-track{
+  position:relative;
+  display:flex;
+  border-radius:9999px;
+  padding:5px;
+  background:rgba(230,228,240,0.7);
+  backdrop-filter:blur(24px) saturate(200%);
+  -webkit-backdrop-filter:blur(24px) saturate(200%);
+  border:1px solid rgba(255,255,255,0.65);
+  box-shadow:inset 0 1.5px 0 rgba(255,255,255,0.85),0 2px 12px rgba(0,0,0,.07);
+  filter:url(#gooey-gallery);
+}
+.gallery-type-pill{
+  position:absolute;
+  top:5px;bottom:5px;
+  border-radius:9999px;
+  background:rgba(255,255,255,0.95);
+  box-shadow:inset 0 1.5px 0 #fff,0 2px 10px rgba(0,0,0,.1);
+  transition:left .42s cubic-bezier(.34,1.56,.64,1),width .42s cubic-bezier(.34,1.56,.64,1);
+  filter:blur(1px);
+  pointer-events:none;
+  /* 初期値：企画ボタン分のデフォルト幅（JSで上書きされるまでの仮値） */
+  left:5px;
+  width:calc(50% - 5px);
+}
+.gallery-type-btn{
+  position:relative;z-index:1;
+  padding:9px 28px;
+  border-radius:9999px;
+  border:none;background:transparent;cursor:pointer;
+  font-size:14px;font-weight:600;
+  font-family:'Inter','Noto Sans JP',sans-serif;
+  letter-spacing:-0.01em;
+  color:rgba(60,50,90,0.55);
+  transition:color .25s;
+  -webkit-tap-highlight-color:transparent;
+  white-space:nowrap;
+}
+.gallery-type-btn.active{color:#1a1a2e;font-weight:700;}
+
+/* ページスライドアニメーション */
+.gallery-page{
+  transition:transform .38s cubic-bezier(.34,1.2,.64,1),opacity .28s ease;
+  will-change:transform,opacity;
+}
+.gallery-page.slide-out-left{transform:translateX(-48px);opacity:0;pointer-events:none;}
+.gallery-page.slide-out-right{transform:translateX(48px);opacity:0;pointer-events:none;}
+.gallery-page.slide-in-left{animation:slideInLeft .38s cubic-bezier(.34,1.2,.64,1) forwards;}
+.gallery-page.slide-in-right{animation:slideInRight .38s cubic-bezier(.34,1.2,.64,1) forwards;}
+@keyframes slideInLeft{from{transform:translateX(48px);opacity:0;}to{transform:translateX(0);opacity:1;}}
+@keyframes slideInRight{from{transform:translateX(-48px);opacity:0;}to{transform:translateX(0);opacity:1;}}
+
 .toast-bar{position:fixed;bottom:120px;left:50%;transform:translateX(-50%);background:rgba(17,17,17,0.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.12);color:#fff;font-size:12px;padding:10px 20px;border-radius:20px;white-space:nowrap;z-index:700;opacity:0;transition:opacity .3s;font-family:'Inter','Noto Sans JP',sans-serif;pointer-events:none;box-shadow:inset 0 1px 0 rgba(255,255,255,0.2),0 4px 20px rgba(0,0,0,.3);}
 .toast-bar.show{opacity:1;}
 input[type=file]{display:none;}
@@ -326,6 +385,21 @@ input[type=file]{display:none;}
 .comment-nick{font-size:11px;font-weight:700;color:#222;}
 .comment-text{font-size:12px;color:#444;margin-top:2px;line-height:1.5;}
 .comment-time{font-size:10px;color:#bbb;margin-top:2px;}
+.comment-like-btn{
+  display:flex;align-items:center;gap:3px;
+  background:none;border:none;cursor:pointer;
+  padding:2px 6px;border-radius:10px;
+  font-size:11px;color:#bbb;
+  transition:transform .45s cubic-bezier(.34,1.7,.64,1),color .2s;
+  -webkit-tap-highlight-color:transparent;
+  flex-shrink:0;
+  margin-top:2px;
+  align-self:flex-start;
+}
+.comment-like-btn.liked{color:#E24B4A;}
+.comment-like-btn svg{width:13px;height:13px;transition:transform .45s cubic-bezier(.34,1.7,.64,1);}
+.comment-like-btn.liked svg{fill:#E24B4A;stroke:#E24B4A;}
+.comment-like-btn:not(.liked) svg{fill:none;stroke:#bbb;stroke-width:2;}
 .comment-input-row{display:flex;gap:8px;margin-top:8px;align-items:flex-end;}
 .comment-input-wrap{flex:1;display:flex;flex-direction:column;gap:6px;}
 .comment-nick-input{border:1px solid rgba(255,255,255,0.55);border-radius:10px;padding:8px 12px;font-size:12px;font-family:'Inter','Noto Sans JP',sans-serif;outline:none;color:#111;background:rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
@@ -410,6 +484,17 @@ input[type=file]{display:none;}
 </div>
 
 <!-- HEADER -->
+<!-- SVG Gooey Filter for gallery tabs -->
+<svg style="position:absolute;width:0;height:0;">
+  <defs>
+    <filter id="gooey-gallery" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur"/>
+      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 26 -10" result="gooey"/>
+      <feComposite in="SourceGraphic" in2="gooey" operator="atop"/>
+    </filter>
+  </defs>
+</svg>
+
 <div class="header">
   <div class="title-area">
     <div class="title-row">
@@ -437,15 +522,32 @@ input[type=file]{display:none;}
   </div>
 </div>
 
-<!-- GALLERY -->
-<div class="content">
+<!-- GALLERY（企画） -->
+<div class="content gallery-page" id="gallery-event">
   <div id="gallery-loading" class="loading">読み込み中...</div>
   <div class="grid-wrap" id="gallery-grid" style="display:none;"></div>
   <div class="empty" id="gallery-empty" style="display:none;">写真がまだありません</div>
   <button class="load-more-btn" id="load-more-btn" style="display:none;" onclick="loadMore()">もっと見る</button>
 </div>
 
+<!-- GALLERY（テーマ） -->
+<div class="content gallery-page" id="gallery-theme" style="display:none;">
+  <div id="theme-gallery-loading" class="loading">読み込み中...</div>
+  <div class="grid-wrap" id="theme-gallery-grid" style="display:none;"></div>
+  <div class="empty" id="theme-gallery-empty" style="display:none;">写真がまだありません</div>
+  <button class="load-more-btn" id="theme-load-more-btn" style="display:none;" onclick="loadThemeMore()">もっと見る</button>
+</div>
+
 <!-- DETAIL MODAL -->
+<!-- BOTTOM GALLERY TYPE TAB -->
+<div class="gallery-type-bar" id="gallery-type-bar">
+  <div class="gallery-type-track" id="gallery-type-track">
+    <div class="gallery-type-pill" id="gallery-type-pill"></div>
+    <button class="gallery-type-btn active" id="gtab-event" onclick="switchGalleryType('event',0)">企画</button>
+    <button class="gallery-type-btn" id="gtab-theme" onclick="switchGalleryType('theme',1)">テーマ</button>
+  </div>
+</div>
+
 <div id="detail-overlay" onclick="closeDetail()"></div>
 <div id="detail-modal">
   <button class="detail-close" onclick="closeDetail()">
@@ -512,11 +614,6 @@ input[type=file]{display:none;}
       <svg viewBox="0 0 24 24"><polyline points="16,16 12,12 8,16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39,18.39A5,5,0,0,0,18,9h-1.26A8,8,0,1,0,3,16.3"/></svg>
       <p>写真を選ぶ / カメラで撮影</p>
     </div>
-    <div id="ai-bar" style="display:none;" class="ai-bar post-item">
-      <div class="ai-dot checking" id="ai-dot"></div>
-      <div class="ai-info"><p>AI安全チェック</p><span id="ai-msg">解析中...</span></div>
-      <span class="ai-tag checking" id="ai-tag">確認中</span>
-    </div>
     <div class="post-item">
       <div class="f-label">ニックネーム</div>
       <input class="f-input" id="f-name" placeholder="例：田中 花子" type="text">
@@ -569,14 +666,14 @@ input[type=file]{display:none;}
         <button class="logout-btn" onclick="adminLogout()">ログアウト</button>
       </div>
     </div>
-    <div class="admin-body">
-      <div class="admin-create-event">
-        <div class="admin-create-event-title">＋ イベントを作成</div>
+    <div class="admin-body" style="padding-bottom:100px;">
+      <div class="admin-create-event" id="admin-create-event-wrap">
+        <div class="admin-create-event-title" id="admin-create-event-title">＋ イベントを作成</div>
         <input class="admin-input" id="new-event-name" placeholder="イベント名（例：新歓2026）" type="text">
         <button class="admin-create-btn" onclick="createNewEvent()">作成する</button>
       </div>
       <div class="admin-event-select">
-        <div class="admin-event-select-label">管理するイベントを選択</div>
+        <div class="admin-event-select-label" id="admin-event-select-label">管理するイベントを選択</div>
         <div class="admin-event-picker" id="admin-event-picker"></div>
       </div>
       <!-- イベントごとのトグル（All選択時は非表示） -->
@@ -614,6 +711,14 @@ input[type=file]{display:none;}
       <div id="admin-list"></div>
       <div id="admin-empty" class="empty" style="display:none;">投稿がありません</div>
     </div>
+    <!-- 管理者用ボトムタブ -->
+    <div class="gallery-type-bar" id="admin-type-bar" style="display:none;">
+      <div class="gallery-type-track" id="admin-type-track" style="filter:url(#gooey-gallery);">
+        <div class="gallery-type-pill" id="admin-type-pill"></div>
+        <button class="gallery-type-btn active" id="admin-gtab-event" onclick="switchAdminGalleryType('event',0)">企画</button>
+        <button class="gallery-type-btn" id="admin-gtab-theme" onclick="switchAdminGalleryType('theme',1)">テーマ</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -624,10 +729,12 @@ const SUPABASE_URL='https://psgbmfjrcsnaiuabccsz.supabase.co';
 const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBzZ2JtZmpyY3NuYWl1YWJjY3N6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2Njk2NDksImV4cCI6MjA5NDI0NTY0OX0.hc4dKVtEHwNLIpvSY8KlVVhgeapB8k86_i17AySFUaU';
 const PASS='tO6%yyaOUp6q';
 const PAGE_SIZE=20;
-let aiOk=false,adminAuth=false,allPosts=[],adminAllPosts=[],selectedFile=null;
+let adminAuth=false,allPosts=[],adminAllPosts=[],selectedFile=null;
 let currentPage=0,hasMore=false,adminFilter='pending',searchOpen=false;
 let cols=2,expandedCard=null;
 let currentEventName='all',events=[],adminCurrentEvent='all';
+let currentGalleryType='event'; // 'event' or 'theme'
+let currentThemeTag='all',themePosts=[],themeCurrentPage=0,themeHasMore=false,themeEvents=[];
 // イベントごとの設定（メモリ内管理）
 let eventSettings={};
 
@@ -722,6 +829,7 @@ document.addEventListener('click',()=>{if(expandedCard)collapseCard();});
 /* ===== DETAIL MODAL ===== */
 let currentDetailPostId=null;
 const reactedMap={};
+const commentLikedSet=new Set(); // セッション中にいいね済みのcommentId
 
 async function openDetail(post){
   currentDetailPostId=post.id;
@@ -736,6 +844,8 @@ async function openDetail(post){
     if(el){el.style.animation='none';void el.offsetWidth;el.style.animation='';}
   });
   document.body.style.overflow='hidden';
+  const gtbar=document.getElementById('gallery-type-bar');
+  if(gtbar)gtbar.style.opacity='0';
   document.getElementById('detail-overlay').classList.add('open');
   document.getElementById('detail-modal').classList.add('open');
   initReactionGel();
@@ -748,6 +858,8 @@ function closeDetail(){
   document.getElementById('detail-overlay').classList.remove('open');
   document.getElementById('detail-modal').classList.remove('open');
   document.body.style.overflow='';
+  const gtbar2=document.getElementById('gallery-type-bar');
+  if(gtbar2)gtbar2.style.opacity='1';
   currentDetailPostId=null;
 }
 
@@ -833,11 +945,21 @@ async function loadComments(postId){
   const list=document.getElementById('comments-list');
   list.innerHTML='<div style="font-size:12px;color:#bbb;padding:4px 0;">読み込み中...</div>';
   try{
-    const data=await api(`comments?post_id=eq.${postId}&order=created_at.asc&select=*`)||[];
+    const [comments, likes]=await Promise.all([
+      api(`comments?post_id=eq.${postId}&order=created_at.asc&select=*`),
+      api(`comment_likes?comment_id=in.(${[0].join(',')})&select=*`).catch(()=>[])
+    ]);
+    const data=comments||[];
     if(!data.length){list.innerHTML='<div style="font-size:12px;color:#ccc;padding:4px 0;">まだコメントはありません</div>';return;}
+    // いいね数を取得
+    const ids=data.map(c=>c.id).join(',');
+    const likesData=ids?await api(`comment_likes?comment_id=in.(${ids})&select=comment_id,count`).catch(()=>[]):[];
+    const likesMap={};(likesData||[]).forEach(l=>likesMap[l.comment_id]=l.count);
     list.innerHTML=data.map(c=>{
       const initials=(c.nickname||'?').slice(0,1).toUpperCase();
       const time=new Date(c.created_at).toLocaleString('ja-JP',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'});
+      const likeCount=likesMap[c.id]||0;
+      const liked=commentLikedSet.has(c.id);
       return `<div class="comment-item">
         <div class="comment-avatar">${initials}</div>
         <div class="comment-bubble">
@@ -845,9 +967,48 @@ async function loadComments(postId){
           <div class="comment-text">${c.body}</div>
           <div class="comment-time">${time}</div>
         </div>
+        <button class="comment-like-btn${liked?' liked':''}" onclick="doCommentLike(${c.id},this)" id="clbtn-${c.id}">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <span id="clcnt-${c.id}">${likeCount||''}</span>
+        </button>
       </div>`;
     }).join('');
+    // ゲルモーション付与
+    list.querySelectorAll('.comment-like-btn').forEach(btn=>{
+      btn.addEventListener('touchstart',()=>{btn.style.transition='transform .1s';btn.style.transform='scale(.78)';},{passive:true});
+      btn.addEventListener('touchend',()=>{btn.style.transition='transform .5s cubic-bezier(.34,1.8,.64,1)';btn.style.transform='scale(1)';},{passive:true});
+      btn.addEventListener('mousedown',()=>{btn.style.transition='transform .1s';btn.style.transform='scale(.78)';});
+      btn.addEventListener('mouseup',()=>{btn.style.transition='transform .5s cubic-bezier(.34,1.8,.64,1)';btn.style.transform='scale(1)';});
+    });
   }catch(e){list.innerHTML='<div style="font-size:12px;color:#E24B4A;">読み込みエラー</div>';}
+}
+
+async function doCommentLike(commentId, btn){
+  const liked=commentLikedSet.has(commentId);
+  const cntEl=document.getElementById(`clcnt-${commentId}`);
+  const cur=parseInt(cntEl.textContent)||0;
+  if(liked){
+    commentLikedSet.delete(commentId);
+    btn.classList.remove('liked');
+    const existing=await api(`comment_likes?comment_id=eq.${commentId}&select=id,count`).catch(()=>[]);
+    if(existing&&existing.length){
+      const n=Math.max(0,existing[0].count-1);
+      await api(`comment_likes?id=eq.${existing[0].id}`,{method:'PATCH',body:JSON.stringify({count:n})});
+      cntEl.textContent=n||'';
+    }
+  }else{
+    commentLikedSet.add(commentId);
+    btn.classList.add('liked');
+    const existing=await api(`comment_likes?comment_id=eq.${commentId}&select=id,count`).catch(()=>[]);
+    if(existing&&existing.length){
+      const n=existing[0].count+1;
+      await api(`comment_likes?id=eq.${existing[0].id}`,{method:'PATCH',body:JSON.stringify({count:n})});
+      cntEl.textContent=n;
+    }else{
+      await api('comment_likes',{method:'POST',body:JSON.stringify({comment_id:commentId,count:1})});
+      cntEl.textContent=1;
+    }
+  }
 }
 
 async function doComment(){
@@ -906,10 +1067,130 @@ async function uploadImage(file){
 }
 
 /* ===== EVENTS ===== */
+/* ===== GALLERY TYPE SWITCH ===== */
+function initPill(trackId, pillId, btnId){
+  const run=()=>{
+    const track=document.getElementById(trackId);
+    const pill=document.getElementById(pillId);
+    const btn=document.getElementById(btnId);
+    if(!track||!pill||!btn)return false;
+    const br=btn.getBoundingClientRect();
+    const tr=track.getBoundingClientRect();
+    if(br.width===0||tr.width===0)return false;
+    pill.style.transition='none';
+    pill.style.left=(br.left-tr.left)+'px';
+    pill.style.width=br.width+'px';
+    requestAnimationFrame(()=>{pill.style.transition='';});
+    return true;
+  };
+  // 即時・rAF・50ms・200ms・500msの5段階で試みる
+  if(!run()){
+    requestAnimationFrame(()=>{
+      if(!run()){
+        setTimeout(()=>{if(!run()){setTimeout(()=>{if(!run())setTimeout(run,500);},200);}},50);
+      }
+    });
+  }
+}
+function initGalleryTypePill(){initPill('gallery-type-track','gallery-type-pill','gtab-event');}
+
+function switchGalleryType(type, idx){
+  if(type===currentGalleryType)return;
+  const prev=currentGalleryType;
+  currentGalleryType=type;
+
+  // pillアニメーション
+  const track=document.getElementById('gallery-type-track');
+  const pill=document.getElementById('gallery-type-pill');
+  const btn=document.getElementById('gtab-'+type);
+  if(track&&pill&&btn){
+    const tr=track.getBoundingClientRect();
+    const br=btn.getBoundingClientRect();
+    pill.style.left=(br.left-tr.left)+'px';
+    pill.style.width=br.width+'px';
+  }
+
+  // ボタンのactive切り替え
+  document.querySelectorAll('.gallery-type-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('gtab-'+type).classList.add('active');
+
+  // ページスライド
+  const direction=idx>(['event','theme'].indexOf(prev))?1:-1;
+  const outClass=direction>0?'slide-out-left':'slide-out-right';
+  const inClass=direction>0?'slide-in-left':'slide-in-right';
+
+  const outPage=document.getElementById('gallery-'+(type==='event'?'theme':'event'));
+  const inPage=document.getElementById('gallery-'+type);
+
+  outPage.classList.add(outClass);
+  setTimeout(()=>{
+    outPage.style.display='none';
+    outPage.classList.remove(outClass);
+    inPage.style.display='block';
+    inPage.classList.add(inClass);
+    setTimeout(()=>inPage.classList.remove(inClass),400);
+  },280);
+
+  // FAB・イベントタブ表示切替
+  if(type==='event'){
+    document.getElementById('event-tabs').parentElement.style.display='';
+    renderEventTabs();
+    loadGallery();
+  } else {
+    document.getElementById('event-tabs').parentElement.style.display='none';
+    // テーマ用イベントタブを表示（後で実装）
+    loadThemeGallery();
+  }
+}
+
+/* ===== ADMIN GALLERY TYPE SWITCH ===== */
+let adminGalleryType='event';
+
+function initAdminTypePill(){initPill('admin-type-track','admin-type-pill','admin-gtab-event');}
+
+function switchAdminGalleryType(type, idx){
+  if(type===adminGalleryType)return;
+  adminGalleryType=type;
+
+  // pill移動
+  const track=document.getElementById('admin-type-track');
+  const pill=document.getElementById('admin-type-pill');
+  const btn=document.getElementById('admin-gtab-'+type);
+  if(track&&pill&&btn){
+    const tr=track.getBoundingClientRect();
+    const br=btn.getBoundingClientRect();
+    pill.style.left=(br.left-tr.left)+'px';
+    pill.style.width=br.width+'px';
+  }
+  document.querySelectorAll('#admin-type-track .gallery-type-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('admin-gtab-'+type).classList.add('active');
+
+  // ラベル・placeholder切り替え
+  const input=document.getElementById('new-event-name');
+  const title=document.getElementById('admin-create-event-title');
+  const selectLabel=document.getElementById('admin-event-select-label');
+  if(type==='theme'){
+    if(input)input.placeholder='テーマ名（例：梅雨☂️）';
+    if(title)title.textContent='＋ テーマを作成';
+    if(selectLabel)selectLabel.textContent='管理するテーマを選択';
+  } else {
+    if(input)input.placeholder='イベント名（例：新歓2026）';
+    if(title)title.textContent='＋ イベントを作成';
+    if(selectLabel)selectLabel.textContent='管理するイベントを選択';
+  }
+
+  // 管理対象をリセットしてイベント一覧を再描画
+  adminCurrentEvent='all';
+  renderAdminEventPicker();
+  loadAdminPosts();
+}
+
 async function loadEvents(){
   try{
-    const data=await api('events?order=created_at.asc&select=*');
+    const data=await api('events?order=created_at.asc&select=*&tag_type=eq.event');
     events=data||[];
+    const themeData=await api('events?order=created_at.asc&select=*&tag_type=eq.theme').catch(()=>[]);
+    themeEvents=themeData||[];
     // Supabaseから設定を読み込んでeventSettingsに反映
     events.forEach(ev=>{
       if(!eventSettings[ev.name])eventSettings[ev.name]={};
@@ -966,7 +1247,7 @@ async function loadGallery(reset=true){
   }
   try{
     const offset=currentPage*PAGE_SIZE;
-    let q=`posts?approved=eq.true&order=created_at.desc&limit=${PAGE_SIZE}&offset=${offset}&select=id,nickname,comment,image_url,event_name`;
+    let q=`posts?approved=eq.true&gallery_type=eq.event&order=created_at.desc&limit=${PAGE_SIZE}&offset=${offset}&select=id,nickname,comment,image_url,event_name`;
     if(currentEventName!=='all')q+=`&event_name=eq.${encodeURIComponent(currentEventName)}`;
     const data=await api(q);
     const newPosts=data||[];
@@ -974,7 +1255,7 @@ async function loadGallery(reset=true){
     if(reset)allPosts=newPosts;else allPosts=[...allPosts,...newPosts];
     renderCards(allPosts);
     document.getElementById('load-more-btn').style.display=hasMore?'block':'none';
-    let cq=`posts?approved=eq.true&select=id`;
+    let cq=`posts?approved=eq.true&gallery_type=eq.event&select=id`;
     if(currentEventName!=='all')cq+=`&event_name=eq.${encodeURIComponent(currentEventName)}`;
     api(cq).then(d=>document.getElementById('count-num').textContent=(d||[]).length);
   }catch(e){
@@ -983,6 +1264,72 @@ async function loadGallery(reset=true){
     document.getElementById('gallery-empty').textContent='エラー: '+e.message;
   }
 }
+/* ===== THEME GALLERY ===== */
+async function loadThemeGallery(reset=true){
+  if(reset){
+    themeCurrentPage=0;themePosts=[];
+    document.getElementById('theme-gallery-loading').style.display='block';
+    document.getElementById('theme-gallery-grid').style.display='none';
+    document.getElementById('theme-gallery-empty').style.display='none';
+    document.getElementById('theme-load-more-btn').style.display='none';
+  }
+  try{
+    const offset=themeCurrentPage*PAGE_SIZE;
+    let q=`posts?approved=eq.true&gallery_type=eq.theme&order=created_at.desc&limit=${PAGE_SIZE}&offset=${offset}&select=id,nickname,comment,image_url,event_name`;
+    if(currentThemeTag!=='all')q+=`&event_name=eq.${encodeURIComponent(currentThemeTag)}`;
+    const data=await api(q);
+    const newPosts=data||[];
+    themeHasMore=newPosts.length===PAGE_SIZE;
+    if(reset)themePosts=newPosts;else themePosts=[...themePosts,...newPosts];
+    renderThemeCards(themePosts);
+    document.getElementById('theme-load-more-btn').style.display=themeHasMore?'block':'none';
+  }catch(e){
+    document.getElementById('theme-gallery-loading').style.display='none';
+    document.getElementById('theme-gallery-empty').style.display='block';
+    document.getElementById('theme-gallery-empty').textContent='エラー: '+e.message;
+  }
+}
+
+function renderThemeCards(posts){
+  const loading=document.getElementById('theme-gallery-loading');
+  const grid=document.getElementById('theme-gallery-grid');
+  const empty=document.getElementById('theme-gallery-empty');
+  if(!grid)return;
+  loading.style.display='none';
+  if(!posts.length){grid.style.display='none';empty.style.display='block';return;}
+  empty.style.display='none';
+  grid.style.display='flex';
+  // renderCardsと同じロジックを流用（allPostsを一時的に差し替え）
+  const saved=allPosts;
+  allPosts=posts;
+  const savedGrid=document.getElementById('gallery-grid');
+  // theme-gallery-gridにレンダリング
+  const cols=getCols();
+  const colClass=cols===1?'col1':cols===2?'col2':'col3';
+  const columns=Array.from({length:cols},()=>[]);
+  posts.forEach((p,i)=>columns[i%cols].push(p));
+  grid.innerHTML=columns.map(col=>{
+    const items=col.map(p=>`
+      <div class="m-card-outer ${colClass}" data-post-id="${p.id}" onclick="handleCardTap(this,event)">
+        <div class="m-card"><img src="${p.image_url}" loading="lazy" decoding="async"></div>
+        <div class="card-caption">
+          <div class="card-name">${p.nickname||'匿名'}</div>
+          ${p.comment?'<div class="card-comment">'+p.comment+'</div>':''}
+          ${p.event_name&&p.event_name!=='general'?'<span class="card-event-tag">'+p.event_name+'</span>':''}
+        </div>
+      </div>`).join('');
+    return `<div class="m-col">${items}</div>`;
+  }).join('');
+  allPosts=saved;
+  // handleCardTapがallPostsを参照するので、テーマページ用にthemePostsもallPostsにマージ
+  allPosts=[...allPosts,...posts.filter(p=>!allPosts.find(a=>a.id===p.id))];
+}
+
+async function loadThemeMore(){
+  themeCurrentPage++;
+  await loadThemeGallery(false);
+}
+
 async function loadMore(){
   currentPage++;
   const btn=document.getElementById('load-more-btn');
@@ -1094,11 +1441,11 @@ function closePost(){
 function updatePostBtn(){
   const termsOk=document.getElementById('terms-check')?.checked||false;
   const posting=getEventSetting(currentEventName,'posting',true);
-  document.getElementById('post-btn').disabled=!(aiOk&&termsOk&&posting);
+  document.getElementById('post-btn').disabled=!(termsOk&&posting);
 }
 function onFile(e){
   const f=e.target.files[0];if(!f)return;
-  selectedFile=f;aiOk=false;updatePostBtn();
+  selectedFile=f;updatePostBtn();
   const r=new FileReader();
   r.onload=ev=>{
     const area=document.getElementById('up-area');
@@ -1106,7 +1453,6 @@ function onFile(e){
     area.innerHTML='<img src="'+ev.target.result+'" style="width:100%;border-radius:14px;display:block;"><p style="font-size:11px;color:#bbb;padding:8px 0;">タップして変更</p>';
     area.style.minHeight='auto';area.style.border='1px solid #eee';
     area.onclick=()=>triggerFilePicker();
-    startAI();
   };
   r.readAsDataURL(f);
 }
@@ -1114,28 +1460,16 @@ function triggerFilePicker(){
   const input=document.createElement('input');
   input.type='file';input.accept='image/*';input.onchange=onFile;input.click();
 }
-function startAI(){
-  document.getElementById('ai-bar').style.display='flex';
-  setAI('checking','解析中...','確認中');
-  setTimeout(()=>{
-    if(Math.random()>0.1){setAI('safe','問題なし — 投稿できます','安全');aiOk=true;updatePostBtn();}
-    else setAI('unsafe','不適切なコンテンツの可能性があります','要確認');
-  },1500);
-}
-function setAI(s,msg,tag){
-  document.getElementById('ai-dot').className='ai-dot '+s;
-  document.getElementById('ai-msg').textContent=msg;
-  const t=document.getElementById('ai-tag');t.className='ai-tag '+s;t.textContent=tag;
-}
 async function doPost(){
-  if(!selectedFile||!aiOk)return;
+  if(!selectedFile)return;
   const btn=document.getElementById('post-btn');
   btn.disabled=true;btn.textContent='投稿中...';
   try{
     const image_url=await uploadImage(selectedFile);
     const nickname=document.getElementById('f-name').value.trim()||'匿名';
     const comment=document.getElementById('f-comment').value.trim();
-    const event_name=currentEventName==='all'?'general':currentEventName;
+    const event_name=currentGalleryType==='theme'?(currentThemeTag==='all'?'general':currentThemeTag):(currentEventName==='all'?'general':currentEventName);
+    const gallery_type=currentGalleryType;
     const review=getEventSetting(currentEventName,'review',true);
     await api('posts',{method:'POST',body:JSON.stringify({nickname,comment,image_url,approved:!review,event_name})});
     showToast(review?'投稿しました！承認をお待ちください':'投稿しました！');
@@ -1144,11 +1478,10 @@ async function doPost(){
     area.innerHTML='<svg viewBox="0 0 24 24" style="width:26px;height:26px;stroke:#ccc;fill:none;stroke-width:1.5"><polyline points="16,16 12,12 8,16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39,18.39A5,5,0,0,0,18,9h-1.26A8,8,0,1,0,3,16.3"/></svg><p style="font-size:13px;color:#bbb;">写真を選ぶ / カメラで撮影</p>';
     area.style.minHeight='150px';area.style.border='1.5px dashed #ddd';
     area.onclick=()=>triggerFilePicker();
-    document.getElementById('ai-bar').style.display='none';
-    const tc=document.getElementById('terms-check');if(tc)tc.checked=false;
+      const tc=document.getElementById('terms-check');if(tc)tc.checked=false;
     document.getElementById('f-name').value='';
     document.getElementById('f-comment').value='';
-    selectedFile=null;aiOk=false;updatePostBtn();
+    selectedFile=null;updatePostBtn();
     if(!review)loadGallery();
   }catch(e){showToast('エラー: '+e.message);}
   finally{btn.textContent='投稿する';}
@@ -1157,6 +1490,13 @@ async function doPost(){
 /* ===== ADMIN ===== */
 function openAdmin(){
   document.getElementById('admin-screen').classList.add('open');
+  const gtbar3=document.getElementById('gallery-type-bar');
+  if(gtbar3)gtbar3.style.display='none';
+  setTimeout(()=>{
+    const abar=document.getElementById('admin-type-bar');
+    if(abar)abar.style.display='flex';
+    initAdminTypePill();
+  },100);
   showColsBtn(false);
   document.getElementById('fab-main').style.display='none';
   if(!adminAuth){
@@ -1174,6 +1514,10 @@ function openAdmin(){
 }
 function closeAdmin(){
   document.getElementById('admin-screen').classList.remove('open');
+  const gtbar4=document.getElementById('gallery-type-bar');
+  if(gtbar4)gtbar4.style.display='';
+  const abar=document.getElementById('admin-type-bar');
+  if(abar)abar.style.display='none';
   showColsBtn(true);
   const fab=document.getElementById('fab-main');
   fab.style.display=currentEventName==='all'?'none':'flex';
@@ -1201,6 +1545,7 @@ async function createNewEvent(){
     showToast('イベントを作成しました：'+name);
     document.getElementById('new-event-name').value='';
     await loadEvents();
+    setTimeout(initGalleryTypePill,100);
     renderAdminEventPicker();
   }catch(e){showToast('エラー: '+e.message);}
 }
@@ -1236,7 +1581,8 @@ async function deleteEvent(name){
 }
 function renderAdminEventPicker(){
   const wrap=document.getElementById('admin-event-picker');
-  const tabs=[{name:'all',label:'All'},...events.map(ev=>({name:ev.name,label:ev.name}))];
+  const filtered=adminGalleryType==='theme'?themeEvents:events;
+  const tabs=[{name:'all',label:'All'},...filtered.map(ev=>({name:ev.name,label:ev.name}))];
   wrap.innerHTML=tabs.map(t=>`
     <div style="display:inline-flex;align-items:center;margin-bottom:6px;margin-right:4px;">
       <button class="admin-event-btn${adminCurrentEvent===t.name?' active':''}"
