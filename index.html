@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-<title>KCC GALLERY v61</title>
+<title>KCC GALLERY v68</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -242,6 +242,14 @@ input:checked + .toggle-slider:before{transform:translateX(18px);}
   pointer-events:none;
 }
 .gallery-type-bar > *{pointer-events:auto;}
+/* 管理者画面用タブバー */
+#admin-type-bar{
+  z-index:600;
+}
+.admin-theme-sub-tabs{display:flex;gap:6px;margin-bottom:14px;}
+.admin-theme-sub-tab{padding:6px 16px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,0.6);background:rgba(255,255,255,0.45);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:#666;transition:transform .4s cubic-bezier(.34,1.56,.64,1),background .2s;font-family:'Inter','Noto Sans JP',sans-serif;-webkit-tap-highlight-color:transparent;box-shadow:inset 0 1.5px 0 rgba(255,255,255,0.8);}
+.admin-theme-sub-tab.active{background:rgba(17,17,17,0.85);color:#fff;border-color:rgba(0,0,0,0.3);}
+.admin-theme-sub-tab:active{transform:scale(.9);}
 .gallery-type-track{
   position:relative;
   display:flex;
@@ -293,6 +301,26 @@ input:checked + .toggle-slider:before{transform:translateX(18px);}
 .gallery-page.slide-in-right{animation:slideInRight .38s cubic-bezier(.34,1.2,.64,1) forwards;}
 @keyframes slideInLeft{from{transform:translateX(48px);opacity:0;}to{transform:translateX(0);opacity:1;}}
 @keyframes slideInRight{from{transform:translateX(-48px);opacity:0;}to{transform:translateX(0);opacity:1;}}
+
+/* ===== THEME PAGE ===== */
+.theme-sub-tabs{display:flex;gap:6px;padding:0 16px 8px;overflow-x:auto;scrollbar-width:none;}
+.theme-sub-tabs::-webkit-scrollbar{display:none;}
+.theme-sub-tab{padding:6px 16px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,0.6);background:rgba(255,255,255,0.45);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:#666;white-space:nowrap;transition:transform .4s cubic-bezier(.34,1.56,.64,1),background .2s;font-family:'Inter','Noto Sans JP',sans-serif;-webkit-tap-highlight-color:transparent;box-shadow:inset 0 1.5px 0 rgba(255,255,255,0.8);}
+.theme-sub-tab.active{background:rgba(17,17,17,0.85);color:#fff;border-color:rgba(0,0,0,0.3);box-shadow:inset 0 1px 0 rgba(255,255,255,0.12);}
+.theme-sub-tab:active{transform:scale(.9);transition:transform .1s cubic-bezier(.34,1.56,.64,1);}
+
+.theme-hero{margin:0 14px 14px;padding:20px;border-radius:22px;background:rgba(255,255,255,0.45);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);border:1px solid rgba(255,255,255,0.7);box-shadow:inset 0 1.5px 0 rgba(255,255,255,0.9),0 4px 20px rgba(0,0,0,.06);}
+.theme-hero-label{font-size:10px;font-weight:700;letter-spacing:.15em;color:rgba(100,80,180,0.7);text-transform:uppercase;margin-bottom:6px;}
+.theme-hero-title{font-size:26px;font-weight:900;color:#1a1a2e;letter-spacing:-0.04em;margin-bottom:4px;line-height:1.1;}
+.theme-hero-desc{font-size:12px;color:rgba(60,50,90,0.6);line-height:1.6;}
+.theme-hero-month{font-size:11px;color:rgba(100,80,180,0.5);margin-top:8px;font-weight:500;}
+
+.archive-item{margin:0 14px 12px;padding:16px;border-radius:18px;background:rgba(255,255,255,0.35);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.6);box-shadow:inset 0 1.5px 0 rgba(255,255,255,0.8);}
+.archive-item-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+.archive-item-title{font-size:16px;font-weight:800;color:#1a1a2e;letter-spacing:-0.02em;}
+.archive-item-month{font-size:11px;color:rgba(100,80,180,0.5);font-weight:500;}
+.archive-mini-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;border-radius:10px;overflow:hidden;}
+.archive-mini-img{aspect-ratio:1;object-fit:cover;width:100%;display:block;background:#f0f0f0;}
 
 .toast-bar{position:fixed;bottom:120px;left:50%;transform:translateX(-50%);background:rgba(17,17,17,0.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.12);color:#fff;font-size:12px;padding:10px 20px;border-radius:20px;white-space:nowrap;z-index:700;opacity:0;transition:opacity .3s;font-family:'Inter','Noto Sans JP',sans-serif;pointer-events:none;box-shadow:inset 0 1px 0 rgba(255,255,255,0.2),0 4px 20px rgba(0,0,0,.3);}
 .toast-bar.show{opacity:1;}
@@ -532,13 +560,36 @@ input[type=file]{display:none;}
 
 <!-- GALLERY（テーマ） -->
 <div class="content gallery-page" id="gallery-theme" style="display:none;">
-  <div class="event-tabs-wrap" id="theme-tabs-wrap">
-    <div class="event-tabs" id="theme-event-tabs"></div>
+  <!-- サブタブ：今月 / 自由 / アーカイブ -->
+  <div class="theme-sub-tabs">
+    <button class="theme-sub-tab active" id="tsub-monthly" onclick="switchThemeSubTab('monthly')">今月</button>
+    <button class="theme-sub-tab" id="tsub-free" onclick="switchThemeSubTab('free')">自由</button>
+    <button class="theme-sub-tab" id="tsub-archive" onclick="switchThemeSubTab('archive')">アーカイブ</button>
   </div>
-  <div id="theme-gallery-loading" class="loading">読み込み中...</div>
-  <div class="grid-wrap" id="theme-gallery-grid" style="display:none;"></div>
-  <div class="empty" id="theme-gallery-empty" style="display:none;">写真がまだありません</div>
-  <button class="load-more-btn" id="theme-load-more-btn" style="display:none;" onclick="loadThemeMore()">もっと見る</button>
+
+  <!-- 今月のテーマ -->
+  <div id="theme-monthly-section">
+    <div id="theme-hero-wrap"></div>
+    <div id="theme-monthly-loading" class="loading">読み込み中...</div>
+    <div class="grid-wrap" id="theme-monthly-grid" style="display:none;"></div>
+    <div class="empty" id="theme-monthly-empty" style="display:none;">まだ投稿がありません</div>
+    <button class="load-more-btn" id="theme-monthly-more-btn" style="display:none;" onclick="loadThemeMore('monthly')">もっと見る</button>
+  </div>
+
+  <!-- 自由投稿 -->
+  <div id="theme-free-section" style="display:none;">
+    <div id="theme-free-loading" class="loading">読み込み中...</div>
+    <div class="grid-wrap" id="theme-free-grid" style="display:none;"></div>
+    <div class="empty" id="theme-free-empty" style="display:none;">まだ投稿がありません</div>
+    <button class="load-more-btn" id="theme-free-more-btn" style="display:none;" onclick="loadThemeMore('free')">もっと見る</button>
+  </div>
+
+  <!-- アーカイブ -->
+  <div id="theme-archive-section" style="display:none;">
+    <div id="theme-archive-loading" class="loading">読み込み中...</div>
+    <div id="theme-archive-list"></div>
+    <div class="empty" id="theme-archive-empty" style="display:none;">アーカイブはまだありません</div>
+  </div>
 </div>
 
 <!-- DETAIL MODAL -->
@@ -669,59 +720,154 @@ input[type=file]{display:none;}
         <button class="logout-btn" onclick="adminLogout()">ログアウト</button>
       </div>
     </div>
-    <div class="admin-body" style="padding-bottom:100px;">
-      <div class="admin-create-event" id="admin-create-event-wrap">
-        <div class="admin-create-event-title" id="admin-create-event-title">＋ イベントを作成</div>
-        <input class="admin-input" id="new-event-name" placeholder="イベント名（例：新歓2026）" type="text">
-        <button class="admin-create-btn" onclick="createNewEvent()">作成する</button>
-      </div>
-      <div class="admin-event-select">
-        <div class="admin-event-select-label" id="admin-event-select-label">管理するイベントを選択</div>
-        <div class="admin-event-picker" id="admin-event-picker"></div>
-      </div>
-      <!-- イベントごとのトグル（All選択時は非表示） -->
-      <div id="admin-toggles">
-        <div class="admin-toggle">
-          <div>
-            <div class="admin-toggle-label">投稿受付</div>
-            <div class="admin-toggle-sub" id="toggle-sub">現在：受付中</div>
-          </div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="post-toggle" checked onchange="togglePosting()">
-            <span class="toggle-slider"></span>
-          </label>
+    <div class="admin-body" style="padding-bottom:120px;">
+
+      <!-- ===== 企画管理セクション ===== -->
+      <div id="admin-event-section">
+        <div class="admin-create-event" id="admin-create-event-wrap">
+          <div class="admin-create-event-title">＋ イベントを作成</div>
+          <input class="admin-input" id="new-event-name" placeholder="イベント名（例：新歓2026）" type="text">
+          <button class="admin-create-btn" onclick="createNewEvent()">作成する</button>
         </div>
-        <div class="admin-toggle">
-          <div>
-            <div class="admin-toggle-label">承認審査</div>
-            <div class="admin-toggle-sub" id="review-toggle-sub">現在：審査あり（手動承認）</div>
+        <div class="admin-event-select">
+          <div class="admin-event-select-label">管理するイベントを選択</div>
+          <div class="admin-event-picker" id="admin-event-picker"></div>
+        </div>
+        <div id="admin-toggles">
+          <div class="admin-toggle">
+            <div>
+              <div class="admin-toggle-label">投稿受付</div>
+              <div class="admin-toggle-sub" id="toggle-sub">現在：受付中</div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="post-toggle" checked onchange="togglePosting()">
+              <span class="toggle-slider"></span>
+            </label>
           </div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="review-toggle" checked onchange="toggleReview()">
-            <span class="toggle-slider"></span>
-          </label>
+          <div class="admin-toggle">
+            <div>
+              <div class="admin-toggle-label">承認審査</div>
+              <div class="admin-toggle-sub" id="review-toggle-sub">現在：審査あり（手動承認）</div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="review-toggle" checked onchange="toggleReview()">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+        <div class="admin-search-wrap">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="admin-search" placeholder="名前・コメントで検索..." oninput="adminSearch()">
+        </div>
+        <div class="filter-tabs">
+          <button class="filter-tab active" id="ft-pending" onclick="setFilter('pending')">審査待ち</button>
+          <button class="filter-tab" id="ft-approved" onclick="setFilter('approved')">承認済み</button>
+          <button class="filter-tab" id="ft-all" onclick="setFilter('all')">すべて</button>
+        </div>
+        <div id="admin-list"></div>
+        <div id="admin-empty" class="empty" style="display:none;">投稿がありません</div>
+      </div>
+
+      <!-- ===== テーマ管理セクション ===== -->
+      <div id="admin-theme-section" style="display:none;">
+        <!-- サブタブ -->
+        <div class="admin-theme-sub-tabs">
+          <button class="admin-theme-sub-tab active" id="atsub-monthly" onclick="switchAdminThemeSubTab('monthly')">今月</button>
+          <button class="admin-theme-sub-tab" id="atsub-free" onclick="switchAdminThemeSubTab('free')">自由</button>
+          <button class="admin-theme-sub-tab" id="atsub-archive" onclick="switchAdminThemeSubTab('archive')">アーカイブ</button>
+        </div>
+
+        <!-- 今月の管理 -->
+        <div id="admin-theme-monthly-panel">
+          <div class="admin-create-event">
+            <div class="admin-create-event-title">📅 今月のテーマ</div>
+            <input class="admin-input" id="new-theme-title" placeholder="テーマ名（例：梅雨☂️）" type="text">
+            <input class="admin-input" id="new-theme-desc" placeholder="説明（任意）" type="text">
+            <button class="admin-create-btn" id="admin-theme-set-btn" onclick="setMonthlyTheme()">設定する</button>
+            <div id="current-theme-display" style="margin-top:8px;font-size:12px;color:#aaa;"></div>
+          </div>
+          <div class="admin-toggle">
+            <div>
+              <div class="admin-toggle-label">投稿受付</div>
+              <div class="admin-toggle-sub" id="theme-toggle-sub">現在：受付中</div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="theme-post-toggle" checked onchange="toggleThemePosting()">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="admin-toggle">
+            <div>
+              <div class="admin-toggle-label">承認審査</div>
+              <div class="admin-toggle-sub" id="theme-review-toggle-sub">現在：審査なし（即時公開）</div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="theme-review-toggle" onchange="toggleThemeReview()">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="admin-search-wrap" style="margin-top:10px;">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="admin-theme-search" placeholder="名前・コメントで検索..." oninput="adminThemeSearch()">
+          </div>
+          <div class="filter-tabs">
+            <button class="filter-tab active" id="tft-pending" onclick="setThemeFilter('pending')">審査待ち</button>
+            <button class="filter-tab" id="tft-approved" onclick="setThemeFilter('approved')">承認済み</button>
+            <button class="filter-tab" id="tft-all" onclick="setThemeFilter('all')">すべて</button>
+          </div>
+          <div id="admin-theme-list"></div>
+          <div id="admin-theme-empty" class="empty" style="display:none;">投稿がありません</div>
+        </div>
+
+        <!-- 自由投稿の管理 -->
+        <div id="admin-theme-free-panel" style="display:none;">
+          <div class="admin-search-wrap">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="admin-free-search" placeholder="名前・コメントで検索..." oninput="adminFreeSearch()">
+          </div>
+          <div class="filter-tabs">
+            <button class="filter-tab active" id="fft-pending" onclick="setFreeFilter('pending')">審査待ち</button>
+            <button class="filter-tab" id="fft-approved" onclick="setFreeFilter('approved')">承認済み</button>
+            <button class="filter-tab" id="fft-all" onclick="setFreeFilter('all')">すべて</button>
+          </div>
+          <div id="admin-free-list"></div>
+          <div id="admin-free-empty" class="empty" style="display:none;">投稿がありません</div>
+        </div>
+
+        <!-- アーカイブの管理 -->
+        <div id="admin-theme-archive-panel" style="display:none;">
+          <div id="admin-archive-theme-select">
+            <div class="admin-event-select-label">操作するテーマを選択</div>
+            <div id="admin-archive-picker"></div>
+          </div>
+          <div id="admin-archive-detail" style="display:none;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
+              <button onclick="closeAdminArchiveDetail()" style="background:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.7);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:#555;cursor:pointer;">← 戻る</button>
+              <div id="admin-archive-title" style="font-size:15px;font-weight:800;color:#1a1a2e;flex:1;"></div>
+              <button onclick="deleteArchiveTheme()" style="background:rgba(226,75,74,0.12);border:1px solid rgba(226,75,74,0.3);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:#E24B4A;cursor:pointer;">削除</button>
+            </div>
+            <div class="admin-create-event">
+              <div class="admin-create-event-title">テーマ名を編集</div>
+              <input class="admin-input" id="edit-archive-name" placeholder="テーマ名" type="text">
+              <input class="admin-input" id="edit-archive-desc" placeholder="説明（任意）" type="text">
+              <button class="admin-create-btn" onclick="updateArchiveTheme()">更新する</button>
+            </div>
+            <div id="admin-archive-list"></div>
+            <div id="admin-archive-empty" class="empty" style="display:none;">投稿がありません</div>
+          </div>
         </div>
       </div>
-      <div class="admin-search-wrap">
-        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" id="admin-search" placeholder="名前・コメントで検索..." oninput="adminSearch()">
-      </div>
-      <div class="filter-tabs">
-        <button class="filter-tab active" id="ft-pending" onclick="setFilter('pending')">審査待ち</button>
-        <button class="filter-tab" id="ft-approved" onclick="setFilter('approved')">承認済み</button>
-        <button class="filter-tab" id="ft-all" onclick="setFilter('all')">すべて</button>
-      </div>
-      <div id="admin-list"></div>
-      <div id="admin-empty" class="empty" style="display:none;">投稿がありません</div>
+
     </div>
-    <!-- 管理者用ボトムタブ -->
-    <div class="gallery-type-bar" id="admin-type-bar" style="display:none;">
-      <div class="gallery-type-track" id="admin-type-track" style="filter:url(#gooey-gallery);">
-        <div class="gallery-type-pill" id="admin-type-pill"></div>
-        <button class="gallery-type-btn active" id="admin-gtab-event" onclick="switchAdminGalleryType('event',0)">企画</button>
-        <button class="gallery-type-btn" id="admin-gtab-theme" onclick="switchAdminGalleryType('theme',1)">テーマ</button>
-      </div>
-    </div>
+  </div>
+</div>
+
+<!-- 管理者用ボトムタブ（admin-screenの外に配置してfixedが効くように） -->
+<div class="gallery-type-bar" id="admin-type-bar" style="display:none;">
+  <div class="gallery-type-track" id="admin-type-track" style="filter:url(#gooey-gallery);">
+    <div class="gallery-type-pill" id="admin-type-pill"></div>
+    <button class="gallery-type-btn active" id="admin-gtab-event" onclick="switchAdminGalleryType('event',0)">企画</button>
+    <button class="gallery-type-btn" id="admin-gtab-theme" onclick="switchAdminGalleryType('theme',1)">テーマ</button>
   </div>
 </div>
 
@@ -737,6 +883,11 @@ let currentPage=0,hasMore=false,adminFilter='pending',searchOpen=false;
 let cols=2,expandedCard=null;
 let currentEventName='all',events=[],adminCurrentEvent='all';
 let currentGalleryType='event'; // 'event' or 'theme'
+let currentThemeSubTab='monthly';
+let monthlyTheme=null,allMonthlyThemes=[];
+let themeMonthlyPosts=[],themeMonthlyCurPage=0,themeMonthlyHasMore=false;
+let themeFreePosts=[],themeFreeCurPage=0,themeFreeHasMore=false;
+// 旧変数（互換性のため残す）
 let currentThemeTag='all',themePosts=[],themeCurrentPage=0,themeHasMore=false,themeEvents=[];
 // イベントごとの設定（メモリ内管理）
 let eventSettings={};
@@ -1135,14 +1286,19 @@ function switchGalleryType(type, idx){
   },280);
 
   // FAB・イベントタブ表示切替
+  const fab=document.getElementById('fab-main');
   if(type==='event'){
     document.getElementById('event-tabs').parentElement.style.display='';
     renderEventTabs();
     loadGallery();
+    // FABはeventタブ選択時のみ（Allは非表示）
+    fab.style.display=currentEventName==='all'?'none':'flex';
   } else {
     document.getElementById('event-tabs').parentElement.style.display='none';
     renderThemeTagTabs();
     loadThemeGallery();
+    // テーマページでは常にFAB表示
+    fab.style.display='flex';
   }
 }
 
@@ -1151,8 +1307,14 @@ let adminGalleryType='event';
 
 function initAdminTypePill(){initPill('admin-type-track','admin-type-pill','admin-gtab-event');}
 
+/* ===== ADMIN THEME STATE ===== */
+let adminThemeSubTab='monthly',adminThemeFilter='pending',adminFreeFilter='pending';
+let adminArchiveSelectedTheme=null;
+
 function switchAdminGalleryType(type, idx){
-  if(type===adminGalleryType)return;
+  // 同じタイプでも再描画を許可（投稿後のリセット用）
+  const forceRender=(type===adminGalleryType);
+  adminGalleryType=type;
   adminGalleryType=type;
 
   // pill移動
@@ -1168,24 +1330,248 @@ function switchAdminGalleryType(type, idx){
   document.querySelectorAll('#admin-type-track .gallery-type-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('admin-gtab-'+type).classList.add('active');
 
-  // ラベル・placeholder切り替え
-  const input=document.getElementById('new-event-name');
-  const title=document.getElementById('admin-create-event-title');
-  const selectLabel=document.getElementById('admin-event-select-label');
-  if(type==='theme'){
-    if(input)input.placeholder='テーマ名（例：梅雨☂️）';
-    if(title)title.textContent='＋ テーマを作成';
-    if(selectLabel)selectLabel.textContent='管理するテーマを選択';
-  } else {
-    if(input)input.placeholder='イベント名（例：新歓2026）';
-    if(title)title.textContent='＋ イベントを作成';
-    if(selectLabel)selectLabel.textContent='管理するイベントを選択';
-  }
+  // セクション切替
+  document.getElementById('admin-event-section').style.display=type==='event'?'block':'none';
+  document.getElementById('admin-theme-section').style.display=type==='theme'?'block':'none';
 
-  // 管理対象をリセットしてイベント一覧を再描画
-  adminCurrentEvent='all';
-  renderAdminEventPicker();
-  loadAdminPosts();
+  if(type==='event'){
+    adminCurrentEvent='all';
+    renderAdminEventPicker();
+    loadAdminPosts();
+  } else {
+    switchAdminThemeSubTab('monthly');
+  }
+}
+
+function switchAdminThemeSubTab(tab){
+  adminThemeSubTab=tab;
+  ['monthly','free','archive'].forEach(t=>{
+    document.getElementById('atsub-'+t).classList.toggle('active',t===tab);
+    document.getElementById('admin-theme-'+t+'-panel').style.display=t===tab?'block':'none';
+  });
+  if(tab==='monthly'){
+    loadCurrentMonthlyTheme();
+    loadAdminThemePosts();
+    loadThemeToggles();
+  } else if(tab==='free'){
+    loadAdminFreePosts();
+  } else {
+    renderAdminArchivePicker();
+  }
+}
+
+function renderAdminArchivePicker(){
+  const wrap=document.getElementById('admin-archive-picker');
+  if(!wrap)return;
+  if(!allMonthlyThemes.length){
+    // テーマ一覧を取得
+    api('monthly_themes?order=created_at.desc').then(themes=>{
+      allMonthlyThemes=themes||[];
+      renderAdminArchivePickerItems();
+    });
+  } else {
+    renderAdminArchivePickerItems();
+  }
+}
+function renderAdminArchivePickerItems(){
+  const wrap=document.getElementById('admin-archive-picker');
+  if(!wrap)return;
+  if(!allMonthlyThemes.length){wrap.innerHTML='<div style="font-size:12px;color:#ccc;padding:8px 0;">テーマがまだありません</div>';return;}
+  wrap.innerHTML=allMonthlyThemes.map(t=>{
+    const d=new Date(t.created_at);
+    const m=d.getFullYear()+'年'+(d.getMonth()+1)+'月';
+    const isActive=t.is_active?'<span style="font-size:10px;color:rgba(100,80,180,0.7);font-weight:600;margin-left:6px;">今月</span>':'';
+    return `<div class="admin-create-event" style="cursor:pointer;margin-bottom:10px;" onclick="openAdminArchiveDetail(${t.id},'${t.title.replace(/'/g,"\'")}','${(t.description||'').replace(/'/g,"\'")}')">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div style="font-size:14px;font-weight:700;color:#1a1a2e;">${t.title}${isActive}</div>
+        <div style="font-size:11px;color:#aaa;">${m} →</div>
+      </div>
+      ${t.description?`<div style="font-size:12px;color:#aaa;margin-top:4px;">${t.description}</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+async function openAdminArchiveDetail(id,title,desc){
+  adminArchiveSelectedTheme={id,title,desc};
+  document.getElementById('admin-archive-theme-select').style.display='none';
+  document.getElementById('admin-archive-detail').style.display='block';
+  document.getElementById('admin-archive-title').textContent=title;
+  document.getElementById('edit-archive-name').value=title;
+  document.getElementById('edit-archive-desc').value=desc;
+  // 投稿を読み込む
+  const list=document.getElementById('admin-archive-list');
+  const empty=document.getElementById('admin-archive-empty');
+  list.innerHTML='<div class="loading">読み込み中...</div>';
+  try{
+    const posts=await api(`posts?gallery_type=eq.theme&theme_type=eq.monthly&event_name=eq.${encodeURIComponent(title)}&order=created_at.desc&select=*`)||[];
+    if(!posts.length){list.innerHTML='';empty.style.display='block';return;}
+    empty.style.display='none';
+    renderAdminThemeList(list,posts);
+  }catch(e){list.innerHTML='<div class="empty">エラー: '+e.message+'</div>';}
+}
+
+function closeAdminArchiveDetail(){
+  adminArchiveSelectedTheme=null;
+  document.getElementById('admin-archive-theme-select').style.display='block';
+  document.getElementById('admin-archive-detail').style.display='none';
+}
+
+async function updateArchiveTheme(){
+  if(!adminArchiveSelectedTheme)return;
+  const newTitle=document.getElementById('edit-archive-name').value.trim();
+  const newDesc=document.getElementById('edit-archive-desc').value.trim();
+  if(!newTitle){showToast('テーマ名を入力してください');return;}
+  try{
+    await api(`monthly_themes?id=eq.${adminArchiveSelectedTheme.id}`,{method:'PATCH',body:JSON.stringify({title:newTitle,description:newDesc||null})});
+    showToast('テーマを更新しました');
+    document.getElementById('admin-archive-title').textContent=newTitle;
+    adminArchiveSelectedTheme.title=newTitle;
+    allMonthlyThemes=[];
+  }catch(e){showToast('エラー: '+e.message);}
+}
+
+async function deleteArchiveTheme(){
+  if(!adminArchiveSelectedTheme)return;
+  const {id,title}=adminArchiveSelectedTheme;
+  if(!confirm(`「${title}」を削除しますか？
+このテーマに投稿された写真も全て削除されます。`))return;
+  try{
+    // 投稿の画像を削除
+    const posts=await api(`posts?gallery_type=eq.theme&theme_type=eq.monthly&event_name=eq.${encodeURIComponent(title)}&select=id,image_url`)||[];
+    for(const p of posts){
+      if(p.image_url){
+        const path=p.image_url.split('/photos/')[1];
+        if(path)await fetch(SUPABASE_URL+'/storage/v1/object/photos/'+path,{method:'DELETE',headers:{'Authorization':'Bearer '+SUPABASE_KEY,'apikey':SUPABASE_KEY}});
+      }
+      await api(`posts?id=eq.${p.id}`,{method:'DELETE'});
+    }
+    // テーマ自体を削除
+    await api(`monthly_themes?id=eq.${id}`,{method:'DELETE'});
+    showToast('テーマを削除しました');
+    allMonthlyThemes=[];
+    closeAdminArchiveDetail();
+    renderAdminArchivePicker();
+  }catch(e){showToast('エラー: '+e.message);}
+}
+
+async function loadAdminThemePosts(){
+  const list=document.getElementById('admin-theme-list');
+  const empty=document.getElementById('admin-theme-empty');
+  if(!list)return;
+  list.innerHTML='<div class="loading">読み込み中...</div>';
+  empty.style.display='none';
+  try{
+    const search=document.getElementById('admin-theme-search')?.value||'';
+    let q=`posts?gallery_type=eq.theme&theme_type=eq.monthly&order=created_at.desc&select=*`;
+    if(adminThemeFilter==='pending')q+='&approved=eq.false';
+    else if(adminThemeFilter==='approved')q+='&approved=eq.true';
+    if(search)q+=`&or=(nickname.ilike.*${encodeURIComponent(search)}*,comment.ilike.*${encodeURIComponent(search)}*)`;
+    const posts=await api(q)||[];
+    if(!posts.length){list.innerHTML='';empty.style.display='block';return;}
+    empty.style.display='none';
+    renderAdminThemeList(list,posts);
+  }catch(e){list.innerHTML='<div class="empty">エラー: '+e.message+'</div>';}
+}
+
+async function loadAdminFreePosts(){
+  const list=document.getElementById('admin-free-list');
+  const empty=document.getElementById('admin-free-empty');
+  if(!list)return;
+  list.innerHTML='<div class="loading">読み込み中...</div>';
+  empty.style.display='none';
+  try{
+    const search=document.getElementById('admin-free-search')?.value||'';
+    let q=`posts?gallery_type=eq.theme&theme_type=eq.free&order=created_at.desc&select=*`;
+    if(adminFreeFilter==='pending')q+='&approved=eq.false';
+    else if(adminFreeFilter==='approved')q+='&approved=eq.true';
+    if(search)q+=`&or=(nickname.ilike.*${encodeURIComponent(search)}*,comment.ilike.*${encodeURIComponent(search)}*)`;
+    const posts=await api(q)||[];
+    if(!posts.length){list.innerHTML='';empty.style.display='block';return;}
+    empty.style.display='none';
+    renderAdminThemeList(list,posts);
+  }catch(e){list.innerHTML='<div class="empty">エラー: '+e.message+'</div>';}
+}
+
+function renderAdminThemeList(container,posts){
+  if(!posts.length){container.innerHTML='';return;}
+  container.innerHTML=posts.map(p=>`
+    <div class="a-card" id="atc-${p.id}">
+      <img src="${p.image_url}" loading="lazy">
+      <div class="a-body">
+        <div class="a-name">${p.nickname||'匿名'}</div>
+        <div class="a-comment">${p.comment||'コメントなし'}</div>
+        <div class="a-meta">${p.event_name||'—'} · ${new Date(p.created_at).toLocaleString('ja-JP')}</div>
+        <span class="a-status ${p.approved?'approved':'pending'}">${p.approved?'承認済み':'審査待ち'}</span>
+        <div class="a-actions">
+          ${!p.approved?`<button class="btn-ok" onclick="approveThemePost(${p.id},this)">承認して公開</button>`:''}
+          <button class="btn-del" onclick="deleteThemePost(${p.id},'${p.image_url}',this)">削除</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+async function approveThemePost(id,btn){
+  if(btn){btn.disabled=true;btn.textContent='処理中...';}
+  try{
+    await api(`posts?id=eq.${id}`,{method:'PATCH',body:JSON.stringify({approved:true})});
+    showToast('承認して公開しました');
+    document.getElementById('atc-'+id)?.remove();
+    if(adminThemeSubTab==='monthly')loadAdminThemePosts();
+    else loadAdminFreePosts();
+  }catch(e){showToast('エラー: '+e.message);if(btn){btn.disabled=false;btn.textContent='承認して公開';}}
+}
+
+async function deleteThemePost(id,imageUrl,btn){
+  if(!confirm('この投稿を削除しますか？'))return;
+  try{
+    if(imageUrl){
+      const path=imageUrl.split('/photos/')[1];
+      if(path)await fetch(SUPABASE_URL+'/storage/v1/object/photos/'+path,{method:'DELETE',headers:{'Authorization':'Bearer '+SUPABASE_KEY,'apikey':SUPABASE_KEY}});
+    }
+    await api(`posts?id=eq.${id}`,{method:'DELETE'});
+    showToast('削除しました');
+    if(adminThemeSubTab==='monthly')loadAdminThemePosts();
+    else if(adminThemeSubTab==='free')loadAdminFreePosts();
+    else if(adminArchiveSelectedTheme)openAdminArchiveDetail(adminArchiveSelectedTheme.id,adminArchiveSelectedTheme.title,adminArchiveSelectedTheme.desc||'');
+  }catch(e){showToast('エラー: '+e.message);}
+}
+
+function adminThemeSearch(){loadAdminThemePosts();}
+function adminFreeSearch(){loadAdminFreePosts();}
+function setThemeFilter(f){
+  adminThemeFilter=f;
+  ['pending','approved','all'].forEach(t=>document.getElementById('tft-'+t)?.classList.toggle('active',t===f));
+  loadAdminThemePosts();
+}
+function setFreeFilter(f){
+  adminFreeFilter=f;
+  ['pending','approved','all'].forEach(t=>document.getElementById('fft-'+t)?.classList.toggle('active',t===f));
+  loadAdminFreePosts();
+}
+function toggleThemePosting(){
+  const on=document.getElementById('theme-post-toggle').checked;
+  document.getElementById('theme-toggle-sub').textContent='現在：'+(on?'受付中':'停止中');
+  try{localStorage.setItem('kcc_theme_posting',on?'1':'0');}catch(e){}
+}
+function toggleThemeReview(){
+  const on=document.getElementById('theme-review-toggle').checked;
+  document.getElementById('theme-review-toggle-sub').textContent='現在：'+(on?'審査あり（手動承認）':'審査なし（即時公開）');
+  try{localStorage.setItem('kcc_theme_review',on?'1':'0');}catch(e){}
+}
+function getThemePosting(){
+  try{const v=localStorage.getItem('kcc_theme_posting');return v===null?true:v==='1';}catch(e){return true;}
+}
+function getThemeFreePosting(){return true;} // 自由タブは常に受付中
+function getThemeReview(){
+  try{const v=localStorage.getItem('kcc_theme_review');return v===null?false:v==='1';}catch(e){return false;}
+}
+function loadThemeToggles(){
+  const posting=getThemePosting();
+  const review=getThemeReview();
+  const pt=document.getElementById('theme-post-toggle');
+  const rt=document.getElementById('theme-review-toggle');
+  if(pt){pt.checked=posting;document.getElementById('theme-toggle-sub').textContent='現在：'+(posting?'受付中':'停止中');}
+  if(rt){rt.checked=review;document.getElementById('theme-review-toggle-sub').textContent='現在：'+(review?'審査あり（手動承認）':'審査なし（即時公開）');}
 }
 
 async function loadEvents(){
@@ -1268,85 +1654,207 @@ async function loadGallery(reset=true){
   }
 }
 /* ===== THEME GALLERY ===== */
-function renderThemeTagTabs(){
-  const wrap=document.getElementById('theme-event-tabs');
-  if(!wrap)return;
-  const tabs=[{name:'all',label:'All'},...themeEvents.map(ev=>({name:ev.name,label:ev.name}))];
-  wrap.innerHTML=tabs.map(t=>`
-    <button class="event-tab${currentThemeTag===t.name?' active':''}" onclick="selectThemeTag('${t.name}')">
-      ${t.label}
-    </button>`).join('');
+/* ===== THEME SUBTAB ===== */
+function switchThemeSubTab(tab){
+  if(tab===currentThemeSubTab)return;
+  currentThemeSubTab=tab;
+  ['monthly','free','archive'].forEach(t=>{
+    document.getElementById('tsub-'+t).classList.toggle('active',t===tab);
+    document.getElementById('theme-'+t+'-section').style.display=t===tab?'block':'none';
+  });
+  // アーカイブタブでは投稿ボタン非表示
+  const fab=document.getElementById('fab-main');
+  if(fab)fab.style.display=tab==='archive'?'none':'flex';
+  if(tab==='monthly')loadThemeMonthly();
+  else if(tab==='free')loadThemeFree();
+  else loadThemeArchive();
 }
 
-function selectThemeTag(name){
-  currentThemeTag=name;
-  renderThemeTagTabs();
-  loadThemeGallery();
-}
-
-async function loadThemeGallery(reset=true){
+/* ===== 今月のテーマ ===== */
+async function loadThemeMonthly(reset=true){
   if(reset){
-    themeCurrentPage=0;themePosts=[];
-    document.getElementById('theme-gallery-loading').style.display='block';
-    document.getElementById('theme-gallery-grid').style.display='none';
-    document.getElementById('theme-gallery-empty').style.display='none';
-    document.getElementById('theme-load-more-btn').style.display='none';
+    themeMonthlyCurPage=0;themeMonthlyPosts=[];
+    document.getElementById('theme-monthly-loading').style.display='block';
+    document.getElementById('theme-monthly-grid').style.display='none';
+    document.getElementById('theme-monthly-empty').style.display='none';
+    document.getElementById('theme-monthly-more-btn').style.display='none';
+    document.getElementById('theme-hero-wrap').innerHTML='';
+    // アクティブなテーマを取得
+    try{
+      const themes=await api('monthly_themes?is_active=eq.true&order=created_at.desc&limit=1')||[];
+      monthlyTheme=themes[0]||null;
+      renderThemeHero();
+    }catch(e){monthlyTheme=null;}
   }
   try{
-    const offset=themeCurrentPage*PAGE_SIZE;
-    let q=`posts?approved=eq.true&gallery_type=eq.theme&order=created_at.desc&limit=${PAGE_SIZE}&offset=${offset}&select=id,nickname,comment,image_url,event_name`;
-    if(currentThemeTag!=='all')q+=`&event_name=eq.${encodeURIComponent(currentThemeTag)}`;
-    const data=await api(q);
-    const newPosts=data||[];
-    themeHasMore=newPosts.length===PAGE_SIZE;
-    if(reset)themePosts=newPosts;else themePosts=[...themePosts,...newPosts];
-    renderThemeCards(themePosts);
-    document.getElementById('theme-load-more-btn').style.display=themeHasMore?'block':'none';
+    const offset=themeMonthlyCurPage*PAGE_SIZE;
+    let q=`posts?approved=eq.true&gallery_type=eq.theme&theme_type=eq.monthly&order=created_at.desc&limit=${PAGE_SIZE}&offset=${offset}&select=id,nickname,comment,image_url,event_name`;
+    if(monthlyTheme)q+=`&event_name=eq.${encodeURIComponent(monthlyTheme.title)}`;
+    const data=await api(q)||[];
+    themeMonthlyHasMore=data.length===PAGE_SIZE;
+    if(reset)themeMonthlyPosts=data;else themeMonthlyPosts=[...themeMonthlyPosts,...data];
+    renderThemeGrid('theme-monthly-grid','theme-monthly-loading','theme-monthly-empty',themeMonthlyPosts);
+    document.getElementById('theme-monthly-more-btn').style.display=themeMonthlyHasMore?'block':'none';
+    data.forEach(p=>{if(!allPosts.find(a=>a.id===p.id))allPosts.push(p);});
   }catch(e){
-    document.getElementById('theme-gallery-loading').style.display='none';
-    document.getElementById('theme-gallery-empty').style.display='block';
-    document.getElementById('theme-gallery-empty').textContent='エラー: '+e.message;
+    document.getElementById('theme-monthly-loading').style.display='none';
+    document.getElementById('theme-monthly-empty').style.display='block';
   }
 }
 
-function renderThemeCards(posts){
-  const loading=document.getElementById('theme-gallery-loading');
-  const grid=document.getElementById('theme-gallery-grid');
-  const empty=document.getElementById('theme-gallery-empty');
-  if(!grid)return;
+function renderThemeHero(){
+  const wrap=document.getElementById('theme-hero-wrap');
+  if(!wrap)return;
+  if(!monthlyTheme){
+    wrap.innerHTML=`<div class="theme-hero"><div class="theme-hero-label">今月のテーマ</div><div class="theme-hero-title" style="font-size:16px;color:#aaa;">まだ設定されていません</div></div>`;
+    return;
+  }
+  const d=new Date(monthlyTheme.created_at);
+  const monthStr=d.getFullYear()+'年'+(d.getMonth()+1)+'月';
+  wrap.innerHTML=`<div class="theme-hero">
+    <div class="theme-hero-label">今月のテーマ</div>
+    <div class="theme-hero-title">${monthlyTheme.title}</div>
+    ${monthlyTheme.description?`<div class="theme-hero-desc">${monthlyTheme.description}</div>`:''}
+    <div class="theme-hero-month">${monthStr}</div>
+  </div>`;
+}
+
+/* ===== 自由投稿 ===== */
+async function loadThemeFree(reset=true){
+  if(reset){
+    themeFreeCurPage=0;themeFreePosts=[];
+    document.getElementById('theme-free-loading').style.display='block';
+    document.getElementById('theme-free-grid').style.display='none';
+    document.getElementById('theme-free-empty').style.display='none';
+    document.getElementById('theme-free-more-btn').style.display='none';
+  }
+  try{
+    const offset=themeFreeCurPage*PAGE_SIZE;
+    const q=`posts?approved=eq.true&gallery_type=eq.theme&theme_type=eq.free&order=created_at.desc&limit=${PAGE_SIZE}&offset=${offset}&select=id,nickname,comment,image_url,event_name`;
+    const data=await api(q)||[];
+    themeFreeHasMore=data.length===PAGE_SIZE;
+    if(reset)themeFreePosts=data;else themeFreePosts=[...themeFreePosts,...data];
+    renderThemeGrid('theme-free-grid','theme-free-loading','theme-free-empty',themeFreePosts);
+    document.getElementById('theme-free-more-btn').style.display=themeFreeHasMore?'block':'none';
+    data.forEach(p=>{if(!allPosts.find(a=>a.id===p.id))allPosts.push(p);});
+  }catch(e){
+    document.getElementById('theme-free-loading').style.display='none';
+    document.getElementById('theme-free-empty').style.display='block';
+  }
+}
+
+/* ===== アーカイブ ===== */
+let archiveOpenTheme=null;
+
+async function loadThemeArchive(){
+  archiveOpenTheme=null;
+  document.getElementById('theme-archive-loading').style.display='block';
+  document.getElementById('theme-archive-list').innerHTML='';
+  document.getElementById('theme-archive-empty').style.display='none';
+  try{
+    // 非アクティブ + アクティブ両方を取得（全過去テーマ）
+    const themes=await api('monthly_themes?order=created_at.desc')||[];
+    allMonthlyThemes=themes;
+    document.getElementById('theme-archive-loading').style.display='none';
+    if(!themes.length){document.getElementById('theme-archive-empty').style.display='block';return;}
+    const list=document.getElementById('theme-archive-list');
+    for(const t of themes){
+      const posts=await api(`posts?approved=eq.true&gallery_type=eq.theme&theme_type=eq.monthly&event_name=eq.${encodeURIComponent(t.title)}&order=created_at.desc&limit=3&select=id,image_url`)||[];
+      const d=new Date(t.created_at);
+      const monthStr=d.getFullYear()+'年'+(d.getMonth()+1)+'月';
+      const imgs=posts.slice(0,3).map(p=>`<img class="archive-mini-img" src="${p.image_url}" loading="lazy">`).join('');
+      const emptyImgs=[...Array(Math.max(0,3-posts.length))].map(()=>`<div class="archive-mini-img" style="background:#f0f0f0;"></div>`).join('');
+      const isActive=t.is_active?'<span style="font-size:10px;color:rgba(100,80,180,0.7);font-weight:600;margin-left:6px;">今月</span>':'';
+      list.innerHTML+=`<div class="archive-item" style="cursor:pointer;" onclick="openArchiveTheme('${t.title.replace(/'/g,"\'")}')">
+        <div class="archive-item-header">
+          <div class="archive-item-title">${t.title}${isActive}</div>
+          <div class="archive-item-month">${monthStr}</div>
+        </div>
+        ${posts.length?`<div class="archive-mini-grid">${imgs}${emptyImgs}</div>`:'<div style="font-size:12px;color:#ccc;padding:4px 0;">まだ投稿がありません</div>'}
+      </div>`;
+      posts.forEach(p=>{if(!allPosts.find(a=>a.id===p.id))allPosts.push(p);});
+    }
+  }catch(e){
+    document.getElementById('theme-archive-loading').style.display='none';
+    document.getElementById('theme-archive-empty').style.display='block';
+  }
+}
+
+async function openArchiveTheme(title){
+  archiveOpenTheme=title;
+  // アーカイブリストを隠してギャラリーを表示
+  document.getElementById('theme-archive-list').style.display='none';
+  document.getElementById('theme-archive-empty').style.display='none';
+  // ギャラリーエリアを作る（なければ作成）
+  let archGrid=document.getElementById('theme-archive-gallery');
+  if(!archGrid){
+    archGrid=document.createElement('div');
+    archGrid.id='theme-archive-gallery';
+    document.getElementById('theme-archive-section').appendChild(archGrid);
+  }
+  archGrid.innerHTML=`
+    <div style="display:flex;align-items:center;gap:10px;padding:4px 14px 12px;">
+      <button onclick="closeArchiveTheme()" style="background:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.7);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:#555;cursor:pointer;backdrop-filter:blur(12px);">← 戻る</button>
+      <div style="font-size:16px;font-weight:800;color:#1a1a2e;">${title}</div>
+    </div>
+    <div id="arch-gallery-loading" class="loading">読み込み中...</div>
+    <div class="grid-wrap" id="arch-gallery-grid" style="display:none;"></div>
+    <div class="empty" id="arch-gallery-empty" style="display:none;">投稿がありません</div>`;
+  archGrid.style.display='block';
+  // 投稿を取得
+  try{
+    const posts=await api(`posts?approved=eq.true&gallery_type=eq.theme&theme_type=eq.monthly&event_name=eq.${encodeURIComponent(title)}&order=created_at.desc&select=id,nickname,comment,image_url,event_name`)||[];
+    posts.forEach(p=>{if(!allPosts.find(a=>a.id===p.id))allPosts.push(p);});
+    renderThemeGrid('arch-gallery-grid','arch-gallery-loading','arch-gallery-empty',posts);
+  }catch(e){
+    document.getElementById('arch-gallery-loading').style.display='none';
+    document.getElementById('arch-gallery-empty').style.display='block';
+  }
+}
+
+function closeArchiveTheme(){
+  archiveOpenTheme=null;
+  const archGrid=document.getElementById('theme-archive-gallery');
+  if(archGrid)archGrid.style.display='none';
+  document.getElementById('theme-archive-list').style.display='block';
+}
+
+function renderThemeGrid(gridId,loadingId,emptyId,posts){
+  const loading=document.getElementById(loadingId);
+  const grid=document.getElementById(gridId);
+  const empty=document.getElementById(emptyId);
   loading.style.display='none';
   if(!posts.length){grid.style.display='none';empty.style.display='block';return;}
   empty.style.display='none';
   grid.style.display='flex';
-  // renderCardsと同じロジックを流用（allPostsを一時的に差し替え）
-  const saved=allPosts;
-  allPosts=posts;
-  const savedGrid=document.getElementById('gallery-grid');
-  // theme-gallery-gridにレンダリング
   const cols=getCols();
   const colClass=cols===1?'col1':cols===2?'col2':'col3';
   const columns=Array.from({length:cols},()=>[]);
   posts.forEach((p,i)=>columns[i%cols].push(p));
-  grid.innerHTML=columns.map(col=>{
-    const items=col.map(p=>`
-      <div class="m-card-outer ${colClass}" data-post-id="${p.id}" onclick="handleCardTap(this,event)">
-        <div class="m-card"><img src="${p.image_url}" loading="lazy" decoding="async"></div>
-        <div class="card-caption">
-          <div class="card-name">${p.nickname||'匿名'}</div>
-          ${p.comment?'<div class="card-comment">'+p.comment+'</div>':''}
-          ${p.event_name&&p.event_name!=='general'?'<span class="card-event-tag">'+p.event_name+'</span>':''}
-        </div>
-      </div>`).join('');
-    return `<div class="m-col">${items}</div>`;
-  }).join('');
-  allPosts=saved;
-  // handleCardTapのためにthemePostsをmerge
-  posts.forEach(p=>{if(!allPosts.find(a=>a.id===p.id))allPosts.push(p);});
+  grid.innerHTML=columns.map(col=>`<div class="m-col">${col.map(p=>`
+    <div class="m-card-outer ${colClass}" data-post-id="${p.id}" onclick="handleCardTap(this,event)">
+      <div class="m-card"><img src="${p.image_url}" loading="lazy" decoding="async"></div>
+      <div class="card-caption">
+        <div class="card-name">${p.nickname||'匿名'}</div>
+        ${p.comment?'<div class="card-comment">'+p.comment+'</div>':''}
+      </div>
+    </div>`).join('')}</div>`).join('');
 }
 
-async function loadThemeMore(){
-  themeCurrentPage++;
-  await loadThemeGallery(false);
+async function loadThemeMore(type){
+  if(type==='monthly'){themeMonthlyCurPage++;await loadThemeMonthly(false);}
+  else if(type==='free'){themeFreeCurPage++;await loadThemeFree(false);}
+}
+
+// 旧関数互換（switchGalleryTypeから呼ばれる）
+function renderThemeTagTabs(){}
+async function loadThemeGallery(){
+  currentThemeSubTab='monthly';
+  ['monthly','free','archive'].forEach(t=>{
+    document.getElementById('tsub-'+t).classList.toggle('active',t==='monthly');
+    document.getElementById('theme-'+t+'-section').style.display=t==='monthly'?'block':'none';
+  });
+  await loadThemeMonthly();
 }
 
 async function loadMore(){
@@ -1410,15 +1918,22 @@ function showColsBtn(show){
   btn.style.pointerEvents=show?'auto':'none';
 }
 function openPost(){
-  const posting=getEventSetting(currentEventName,'posting',true);
-  const now=new Date();
-  const currentEvent=events.find(ev=>ev.name===currentEventName);
-  let enabled=posting;
-  if(currentEvent){
-    const start=currentEvent.start_at?new Date(currentEvent.start_at):null;
-    const end=currentEvent.end_at?new Date(currentEvent.end_at):null;
-    if(start&&now<start)enabled=false;
-    if(end&&now>end)enabled=false;
+  let enabled=true;
+  // テーマページはテーマ用の設定を参照
+  if(currentGalleryType==='theme'){
+    // 自由タブは常に受付中、今月タブのみ管理者設定を参照
+    enabled=(currentThemeSubTab==='free')?true:getThemePosting();
+  } else {
+    const posting=getEventSetting(currentEventName,'posting',true);
+    const now=new Date();
+    const currentEvent=events.find(ev=>ev.name===currentEventName);
+    enabled=posting;
+    if(currentEvent){
+      const start=currentEvent.start_at?new Date(currentEvent.start_at):null;
+      const end=currentEvent.end_at?new Date(currentEvent.end_at):null;
+      if(start&&now<start)enabled=false;
+      if(end&&now>end)enabled=false;
+    }
   }
   if(!enabled){
     document.getElementById('post-disabled-banner').style.display='block';
@@ -1428,6 +1943,8 @@ function openPost(){
     document.querySelectorAll('.post-item').forEach(el=>{el.style.display='';});
   }
   document.getElementById('post-screen').classList.add('open');
+  const gtbarPost=document.getElementById('gallery-type-bar');
+  if(gtbarPost)gtbarPost.style.display='none';
   showColsBtn(false);
   const fab=document.getElementById('fab-main');
   fab.className='fab fab-gallery';
@@ -1455,6 +1972,9 @@ function closePost(){
     fab.innerHTML='<svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
     fab.onclick=openPost;
     showColsBtn(true);
+    // ギャラリータイプバーを復元
+    const gtbarClose=document.getElementById('gallery-type-bar');
+    if(gtbarClose)gtbarClose.style.display='';
   },maxDelay*1000);
 }
 function updatePostBtn(){
@@ -1487,11 +2007,26 @@ async function doPost(){
     const image_url=await uploadImage(selectedFile);
     const nickname=document.getElementById('f-name').value.trim()||'匿名';
     const comment=document.getElementById('f-comment').value.trim();
-    const event_name=currentGalleryType==='theme'?(currentThemeTag==='all'?'general':currentThemeTag):(currentEventName==='all'?'general':currentEventName);
-    const gallery_type=currentGalleryType;
-    const review=getEventSetting(currentEventName,'review',true);
-    await api('posts',{method:'POST',body:JSON.stringify({nickname,comment,image_url,approved:!review,event_name})});
-    showToast(review?'投稿しました！承認をお待ちください':'投稿しました！');
+    let event_name,gallery_type=currentGalleryType,theme_type=null;
+    if(currentGalleryType==='theme'){
+      if(currentThemeSubTab==='monthly'&&monthlyTheme){
+        event_name=monthlyTheme.title;theme_type='monthly';
+      } else {
+        event_name='free';theme_type='free';
+      }
+    } else {
+      event_name=currentEventName==='all'?'general':currentEventName;
+    }
+    // themeの投稿は審査なしで即公開
+    let approvedVal;
+    if(currentGalleryType==='theme'){
+      approvedVal=!getThemeReview(); // テーマは審査なし（即時公開）がデフォルト
+    } else {
+      const review=getEventSetting(currentEventName,'review',true);
+      approvedVal=!review;
+    }
+    await api('posts',{method:'POST',body:JSON.stringify({nickname,comment:comment||null,image_url,approved:approvedVal,event_name,gallery_type,theme_type})});
+    showToast(approvedVal?'投稿しました！':'投稿しました！承認をお待ちください');
     const area=document.getElementById('up-area');
     area.onclick=null;
     area.innerHTML='<svg viewBox="0 0 24 24" style="width:26px;height:26px;stroke:#ccc;fill:none;stroke-width:1.5"><polyline points="16,16 12,12 8,16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39,18.39A5,5,0,0,0,18,9h-1.26A8,8,0,1,0,3,16.3"/></svg><p style="font-size:13px;color:#bbb;">写真を選ぶ / カメラで撮影</p>';
@@ -1501,7 +2036,10 @@ async function doPost(){
     document.getElementById('f-name').value='';
     document.getElementById('f-comment').value='';
     selectedFile=null;updatePostBtn();
-    if(!review)loadGallery();
+    if(currentGalleryType==='theme'){
+      if(currentThemeSubTab==='monthly')loadThemeMonthly();
+      else if(currentThemeSubTab==='free')loadThemeFree();
+    } else if(approvedVal)loadGallery();
   }catch(e){showToast('エラー: '+e.message);}
   finally{btn.textContent='投稿する';}
 }
@@ -1511,10 +2049,29 @@ function openAdmin(){
   document.getElementById('admin-screen').classList.add('open');
   const gtbar3=document.getElementById('gallery-type-bar');
   if(gtbar3)gtbar3.style.display='none';
+  // 現在表示中のページに合わせて管理者タブを初期化
+  const targetType=currentGalleryType;
+  adminGalleryType=targetType;
   setTimeout(()=>{
     const abar=document.getElementById('admin-type-bar');
     if(abar)abar.style.display='flex';
+    // pillを正しいタブに設定
     initAdminTypePill();
+    // セクション表示を切り替え
+    document.getElementById('admin-event-section').style.display=targetType==='event'?'block':'none';
+    document.getElementById('admin-theme-section').style.display=targetType==='theme'?'block':'none';
+    document.querySelectorAll('#admin-type-track .gallery-type-btn').forEach(b=>b.classList.remove('active'));
+    const activeBtn=document.getElementById('admin-gtab-'+targetType);
+    if(activeBtn)activeBtn.classList.add('active');
+    // 対応するpillボタンに合わせてpillを再初期化
+    initPill('admin-type-track','admin-type-pill','admin-gtab-'+targetType);
+    // データ読み込み
+    if(targetType==='theme'){
+      switchAdminThemeSubTab('monthly');
+    } else {
+      renderAdminEventPicker();
+      loadAdminPosts();
+    }
   },100);
   showColsBtn(false);
   document.getElementById('fab-main').style.display='none';
@@ -1539,7 +2096,12 @@ function closeAdmin(){
   if(abar)abar.style.display='none';
   showColsBtn(true);
   const fab=document.getElementById('fab-main');
-  fab.style.display=currentEventName==='all'?'none':'flex';
+  if(currentGalleryType==='theme'){
+    // テーマページではアーカイブ以外はFAB表示
+    fab.style.display=currentThemeSubTab==='archive'?'none':'flex';
+  } else {
+    fab.style.display=currentEventName==='all'?'none':'flex';
+  }
 }
 function checkPw(){
   if(document.getElementById('pw-input').value===PASS){
@@ -1555,6 +2117,60 @@ function checkPw(){
   }
 }
 function adminLogout(){adminAuth=false;closeAdmin();}
+
+async function loadCurrentMonthlyTheme(){
+  try{
+    const themes=await api('monthly_themes?is_active=eq.true&order=created_at.desc&limit=1')||[];
+    const el=document.getElementById('current-theme-display');
+    if(!el)return;
+    if(themes.length){
+      const t=themes[0];
+      el.innerHTML=`現在のテーマ：<strong>${t.title}</strong>${t.description?' — '+t.description:''}
+        <button onclick="editMonthlyTheme(${t.id},'${t.title.replace(/'/g,"\'")}','${(t.description||'').replace(/'/g,"\'")}' )" style="margin-left:8px;font-size:11px;color:rgba(100,80,180,0.8);background:transparent;border:none;cursor:pointer;text-decoration:underline;">編集</button>`;
+      el.style.color='rgba(60,50,90,0.6)';
+    } else {
+      el.textContent='現在のテーマは設定されていません';
+    }
+  }catch(e){}
+}
+
+function editMonthlyTheme(id,title,desc){
+  editingThemeId=id;
+  document.getElementById('new-theme-title').value=title;
+  document.getElementById('new-theme-desc').value=desc;
+  document.getElementById('admin-theme-set-btn').textContent='更新する';
+  document.getElementById('new-theme-title').focus();
+}
+
+let editingThemeId=null;
+
+async function setMonthlyTheme(){
+  const title=document.getElementById('new-theme-title').value.trim();
+  const desc=document.getElementById('new-theme-desc').value.trim();
+  if(!title){showToast('テーマ名を入力してください');return;}
+  try{
+    if(editingThemeId){
+      // 編集モード：既存テーマを更新
+      await api(`monthly_themes?id=eq.${editingThemeId}`,{method:'PATCH',body:JSON.stringify({title,description:desc||null})});
+      showToast('テーマを更新しました：'+title);
+      editingThemeId=null;
+      document.getElementById('admin-theme-set-btn').textContent='設定する';
+    } else {
+      // 新規作成：既存のアクティブを非アクティブに
+      const active=await api('monthly_themes?is_active=eq.true&select=id')||[];
+      for(const t of active){
+        await api(`monthly_themes?id=eq.${t.id}`,{method:'PATCH',body:JSON.stringify({is_active:false})});
+      }
+      const now=new Date();
+      const month=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+      await api('monthly_themes',{method:'POST',body:JSON.stringify({title,description:desc||null,month,is_active:true})});
+      showToast('テーマを設定しました：'+title);
+    }
+    document.getElementById('new-theme-title').value='';
+    document.getElementById('new-theme-desc').value='';
+    loadCurrentMonthlyTheme();
+  }catch(e){showToast('エラー: '+e.message);}
+}
 
 async function createNewEvent(){
   const name=document.getElementById('new-event-name').value.trim();
