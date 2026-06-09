@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-<title>KCC GALLERY v59</title>
+<title>KCC GALLERY v60</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -1187,10 +1187,9 @@ function switchAdminGalleryType(type, idx){
 
 async function loadEvents(){
   try{
-    const data=await api('events?order=created_at.asc&select=*&tag_type=eq.event');
-    events=data||[];
-    const themeData=await api('events?order=created_at.asc&select=*&tag_type=eq.theme').catch(()=>[]);
-    themeEvents=themeData||[];
+    const allEvData=await api('events?order=created_at.asc&select=*')||[];
+    events=allEvData.filter(e=>e.tag_type!=='theme');
+    themeEvents=allEvData.filter(e=>e.tag_type==='theme');
     // Supabaseから設定を読み込んでeventSettingsに反映
     events.forEach(ev=>{
       if(!eventSettings[ev.name])eventSettings[ev.name]={};
@@ -1541,7 +1540,7 @@ async function createNewEvent(){
   const name=document.getElementById('new-event-name').value.trim();
   if(!name){showToast('イベント名を入力してください');return;}
   try{
-    await api('events',{method:'POST',body:JSON.stringify({name})});
+    await api('events',{method:'POST',body:JSON.stringify({name,tag_type:adminGalleryType})});
     showToast('イベントを作成しました：'+name);
     document.getElementById('new-event-name').value='';
     await loadEvents();
