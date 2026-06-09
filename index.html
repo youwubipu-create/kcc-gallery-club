@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-<title>KCC GALLERY v68</title>
+<title>KCC GALLERY v72</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -936,6 +936,13 @@ const colIcons={
 function cycleCols(){
   cols=cols>=4?2:cols+1;
   setCols(cols,true);
+  // テーマページも再描画
+  if(currentGalleryType==='theme'){
+    if(currentThemeSubTab==='monthly'&&themeMonthlyPosts.length)
+      renderThemeGrid('theme-monthly-grid','theme-monthly-loading','theme-monthly-empty',themeMonthlyPosts,true);
+    else if(currentThemeSubTab==='free'&&themeFreePosts.length)
+      renderThemeGrid('theme-free-grid','theme-free-loading','theme-free-empty',themeFreePosts,true);
+  }
 }
 function setCols(n,animate=false){
   const grid=document.getElementById('gallery-grid');
@@ -1467,6 +1474,8 @@ async function loadAdminThemePosts(){
     else if(adminThemeFilter==='approved')q+='&approved=eq.true';
     if(search)q+=`&or=(nickname.ilike.*${encodeURIComponent(search)}*,comment.ilike.*${encodeURIComponent(search)}*)`;
     const posts=await api(q)||[];
+    // 現在アクティブなテーマの投稿のみ表示
+    // （全テーマを管理したい場合はアーカイブタブから）
     if(!posts.length){list.innerHTML='';empty.style.display='block';return;}
     empty.style.display='none';
     renderAdminThemeList(list,posts);
@@ -1688,9 +1697,12 @@ async function loadThemeMonthly(reset=true){
   }
   try{
     const offset=themeMonthlyCurPage*PAGE_SIZE;
+    // event_nameフィルターは日本語クォーテーション等でエンコード問題が起きるため
+    // theme_type=monthlyで全件取得し、JSでフィルタリング
     let q=`posts?approved=eq.true&gallery_type=eq.theme&theme_type=eq.monthly&order=created_at.desc&limit=${PAGE_SIZE}&offset=${offset}&select=id,nickname,comment,image_url,event_name`;
-    if(monthlyTheme)q+=`&event_name=eq.${encodeURIComponent(monthlyTheme.title)}`;
-    const data=await api(q)||[];
+    let data=await api(q)||[];
+    // アクティブテーマに紐づく投稿のみ表示
+    if(monthlyTheme)data=data.filter(p=>p.event_name===monthlyTheme.title);
     themeMonthlyHasMore=data.length===PAGE_SIZE;
     if(reset)themeMonthlyPosts=data;else themeMonthlyPosts=[...themeMonthlyPosts,...data];
     renderThemeGrid('theme-monthly-grid','theme-monthly-loading','theme-monthly-empty',themeMonthlyPosts);
@@ -1759,7 +1771,8 @@ async function loadThemeArchive(){
     if(!themes.length){document.getElementById('theme-archive-empty').style.display='block';return;}
     const list=document.getElementById('theme-archive-list');
     for(const t of themes){
-      const posts=await api(`posts?approved=eq.true&gallery_type=eq.theme&theme_type=eq.monthly&event_name=eq.${encodeURIComponent(t.title)}&order=created_at.desc&limit=3&select=id,image_url`)||[];
+      let posts=await api(`posts?approved=eq.true&gallery_type=eq.theme&theme_type=eq.monthly&order=created_at.desc&limit=20&select=id,image_url,event_name`)||[];
+      posts=posts.filter(p=>p.event_name===t.title).slice(0,3);
       const d=new Date(t.created_at);
       const monthStr=d.getFullYear()+'年'+(d.getMonth()+1)+'月';
       const imgs=posts.slice(0,3).map(p=>`<img class="archive-mini-img" src="${p.image_url}" loading="lazy">`).join('');
@@ -1819,26 +1832,31 @@ function closeArchiveTheme(){
   document.getElementById('theme-archive-list').style.display='block';
 }
 
-function renderThemeGrid(gridId,loadingId,emptyId,posts){
+function renderThemeGrid(gridId,loadingId,emptyId,posts,animate=false){
   const loading=document.getElementById(loadingId);
   const grid=document.getElementById(gridId);
   const empty=document.getElementById(emptyId);
-  loading.style.display='none';
-  if(!posts.length){grid.style.display='none';empty.style.display='block';return;}
-  empty.style.display='none';
+  if(loading)loading.style.display='none';
+  if(!posts.length){grid.style.display='none';if(empty)empty.style.display='block';return;}
+  if(empty)empty.style.display='none';
   grid.style.display='flex';
-  const cols=getCols();
-  const colClass=cols===1?'col1':cols===2?'col2':'col3';
   const columns=Array.from({length:cols},()=>[]);
   posts.forEach((p,i)=>columns[i%cols].push(p));
-  grid.innerHTML=columns.map(col=>`<div class="m-col">${col.map(p=>`
-    <div class="m-card-outer ${colClass}" data-post-id="${p.id}" onclick="handleCardTap(this,event)">
-      <div class="m-card"><img src="${p.image_url}" loading="lazy" decoding="async"></div>
-      <div class="card-caption">
-        <div class="card-name">${p.nickname||'匿名'}</div>
-        ${p.comment?'<div class="card-comment">'+p.comment+'</div>':''}
-      </div>
-    </div>`).join('')}</div>`).join('');
+  grid.innerHTML=columns.map((col,ci)=>{
+    const colPos=ci===0?'col-left':ci===cols-1?'col-right':'col-mid';
+    const animClass=animate?' animating':'';
+    return `<div class="grid-col${animClass}">${col.map(p=>`
+      <div class="m-card-outer ${colPos}" data-post-id="${p.id}" onclick="handleCardTap(this,event)">
+        <div class="m-card"><img src="${p.image_url}" loading="lazy" decoding="async"></div>
+        <div class="card-caption">
+          <div class="card-name">${p.nickname||'匿名'}</div>
+          ${p.comment?'<div class="card-comment">'+p.comment+'</div>':''}
+        </div>
+      </div>`).join('')}</div>`;
+  }).join('');
+  if(animate)setTimeout(()=>grid.querySelectorAll('.grid-col').forEach(c=>c.classList.remove('animating')),500);
+  // allPostsにマージ
+  posts.forEach(p=>{if(!allPosts.find(a=>a.id===p.id))allPosts.push(p);});
 }
 
 async function loadThemeMore(type){
