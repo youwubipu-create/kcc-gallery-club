@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-<title>KCC GALLERY v77</title>
+<title>KCC GALLERY v81</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -293,7 +293,6 @@ input:checked + .toggle-slider:before{transform:translateX(18px);}
 /* ページスライドアニメーション */
 .gallery-page{
   transition:transform .38s cubic-bezier(.34,1.2,.64,1),opacity .28s ease;
-  will-change:transform,opacity;
 }
 .gallery-page.slide-out-left{transform:translateX(-48px);opacity:0;pointer-events:none;}
 .gallery-page.slide-out-right{transform:translateX(48px);opacity:0;pointer-events:none;}
@@ -303,7 +302,14 @@ input:checked + .toggle-slider:before{transform:translateX(18px);}
 @keyframes slideInRight{from{transform:translateX(-48px);opacity:0;}to{transform:translateX(0);opacity:1;}}
 
 /* ===== THEME PAGE ===== */
-.theme-sub-tabs{display:flex;gap:6px;padding:0 16px 8px;overflow-x:auto;scrollbar-width:none;}
+.theme-sub-tabs{
+  display:flex;gap:6px;padding:8px 16px;
+  overflow-x:auto;scrollbar-width:none;
+  position:sticky;
+  top:138px;
+  z-index:190;
+  background:transparent;
+}
 .theme-sub-tabs::-webkit-scrollbar{display:none;}
 .theme-sub-tab{padding:6px 16px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,0.6);background:rgba(255,255,255,0.45);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:#666;white-space:nowrap;transition:transform .4s cubic-bezier(.34,1.56,.64,1),background .2s;font-family:'Inter','Noto Sans JP',sans-serif;-webkit-tap-highlight-color:transparent;box-shadow:inset 0 1.5px 0 rgba(255,255,255,0.8);}
 .theme-sub-tab.active{background:rgba(17,17,17,0.85);color:#fff;border-color:rgba(0,0,0,0.3);box-shadow:inset 0 1px 0 rgba(255,255,255,0.12);}
@@ -569,7 +575,7 @@ input[type=file]{display:none;}
 
   <!-- 今月のテーマ -->
   <div id="theme-monthly-section">
-    <div id="theme-hero-wrap"></div>
+    <div id="theme-hero-wrap" style="transition:opacity .15s ease;"></div>
     <div id="theme-monthly-loading" class="loading">読み込み中...</div>
     <div class="grid-wrap" id="theme-monthly-grid" style="display:none;"></div>
     <div class="empty" id="theme-monthly-empty" style="display:none;">まだ投稿がありません</div>
@@ -578,7 +584,7 @@ input[type=file]{display:none;}
 
   <!-- 自由投稿 -->
   <div id="theme-free-section" style="display:none;">
-    <div style="margin:0 14px 12px;padding:12px 16px;background:rgba(255,255,255,0.3);border:1px solid rgba(0,0,0,0.06);border-radius:16px;">
+    <div id="theme-free-desc" style="margin:0 14px 12px;padding:12px 16px;background:rgba(255,255,255,0.3);border:1px solid rgba(0,0,0,0.06);border-radius:16px;transition:opacity .25s ease;">
       <div style="font-size:12px;color:rgba(60,50,90,0.45);line-height:1.7;text-align:center;">あなたの好きな写真を何でも載せてください✨</div>
     </div>
     <div id="theme-free-loading" class="loading">読み込み中...</div>
@@ -1669,6 +1675,20 @@ async function loadGallery(reset=true){
 }
 /* ===== THEME GALLERY ===== */
 /* ===== THEME SUBTAB ===== */
+/* ===== THEME HERO SCROLL FADE ===== */
+function initThemeHeroFade(){
+  window.addEventListener('scroll',()=>{
+    if(currentGalleryType!=='theme')return;
+    const hero=document.getElementById('theme-hero-wrap');
+    const freeDesc=document.getElementById('theme-free-desc');
+    const target=currentThemeSubTab==='monthly'?hero:freeDesc;
+    if(!target)return;
+    const scrollY=window.scrollY;
+    const opacity=Math.max(0,1-scrollY/100);
+    target.style.opacity=opacity;
+  },{passive:true});
+}
+
 function switchThemeSubTab(tab){
   if(tab===currentThemeSubTab)return;
   currentThemeSubTab=tab;
@@ -1676,6 +1696,12 @@ function switchThemeSubTab(tab){
     document.getElementById('tsub-'+t).classList.toggle('active',t===tab);
     document.getElementById('theme-'+t+'-section').style.display=t===tab?'block':'none';
   });
+  // タブ切り替え時にヒーローのopacityをリセット
+  const hero=document.getElementById('theme-hero-wrap');
+  const freeDesc=document.getElementById('theme-free-desc');
+  if(hero)hero.style.opacity=1;
+  if(freeDesc)freeDesc.style.opacity=1;
+  window.scrollTo({top:0,behavior:'smooth'});
   // アーカイブタブでは投稿ボタン非表示
   const fab=document.getElementById('fab-main');
   if(fab)fab.style.display=tab==='archive'?'none':'flex';
@@ -1888,6 +1914,7 @@ async function loadThemeGallery(){
     document.getElementById('tsub-'+t).classList.toggle('active',t==='monthly');
     document.getElementById('theme-'+t+'-section').style.display=t==='monthly'?'block':'none';
   });
+  initThemeHeroFade();
   await loadThemeMonthly();
 }
 
